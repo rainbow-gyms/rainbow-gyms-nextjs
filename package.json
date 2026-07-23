@@ -1,0 +1,51 @@
+{
+  "name": "rainbow-gyms-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "seed": "npx tsx src/seed.ts",
+    "playwright": "npx playwright test"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
+    "@prisma/client": "^6.19.3",
+    "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.8",
+    "dotenv": "^17.4.2",
+    "next": "16.2.11",
+    "next-auth": "^4.24.15",
+    "pg": "^8.22.0",
+    "prisma": "^6.19.3",
+    "react": "19.2.4",
+    "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.82.0",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.26.25",
+    "ts-node": "^10.9.2",
+    "yup": "^1.7.1"
+  },
+  "overrides": {
+    "sharp": "^0.35.3",
+    "postcss": "^8.4.31"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^20",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.11",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.1",
+    "typescript": "^5"
+  }
+}
