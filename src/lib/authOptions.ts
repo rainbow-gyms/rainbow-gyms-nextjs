@@ -1,55 +1,78 @@
-import type { NextAuthConfig } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 type AuthUser = {
   id: string;
   randomKey: string;
 };
 
-const authOptions: NextAuthConfig = {
+export const authOptions: NextAuthOptions = {
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
+
   providers: [
     CredentialsProvider({
-      name: 'Email and Password',
+      name: "Email and Password",
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'john@foo.com' },
-        password: { label: 'Password', type: 'password' },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "john@foo.com",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
       },
-      // You should define authorize here if needed
+
+      async authorize(credentials) {
+        // Example:
+        // const user = await validateUser(credentials);
+
+        // Return null if authentication fails
+        return null;
+
+        // Or return:
+        // return {
+        //   id: user.id,
+        //   randomKey: user.randomKey,
+        //   email: user.email,
+        // };
+      },
     }),
   ],
+
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-    //   error: '/auth/error',
-    //   verifyRequest: '/auth/verify-request',
-    //   newUser: '/auth/new-user'
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    // error: '/auth/error',
+    // verifyRequest: '/auth/verify-request',
+    // newUser: '/auth/new-user',
   },
+
   callbacks: {
-    session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id as string | undefined,
-          randomKey: token.randomKey as string | undefined,
-        },
-      };
-    },
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         const u = user as AuthUser;
-        return {
-          ...token,
-          id: u.id,
-          randomKey: u.randomKey,
-        };
+
+        token.id = u.id;
+        token.randomKey = u.randomKey;
       }
+
       return token;
     },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id!;
+        session.user.randomKey = token.randomKey!;
+      }
+
+      return session;
+    },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 };
 
