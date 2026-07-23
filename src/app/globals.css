@@ -1,3 +1,9 @@
+:root {
+  --nat-navbar-bg: rgb(0, 65, 0);
+  --nat-navbar-bg-rgb: 0, 65, 0;
+  --nat-navbar-text-color: white;
+}
+
 html,
 body {
   --bs-light-rgb: 236, 236, 236;
@@ -5,10 +11,35 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+  --bs-dark: var(--nat-navbar-bg);
+  --bs-dark-rgb: var(--nat-navbar-bg-rgb);
+  background: fixed center url("/wispy_cloud.jpg");
+  background-size: cover;
 }
+
+body .navbar {
+  --bs-navbar-active-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-brand-color: var(--nat-navbar-text-color);
+  --bs-navbar-brand-hover-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-color: var(--nat-navbar-text-color);
+  --bs-navbar-hover-color: var(--nat-navbar-highlight-text);
+}
+
+.bg-dark a.dropdown-item {
+  color: var(--nat-navbar-bg);
+}
+
+#overview {
+  color: black;
+}
+
 .wrapper {
   box-sizing: border-box;
   min-height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+footer, footer a {
+  color: var(--nat-navbar-text-color);
 }
