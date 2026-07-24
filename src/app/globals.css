@@ -12,3 +12,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.darkGradient {
+  background: linear-gradient(90deg, #212529, #343a40);
+}

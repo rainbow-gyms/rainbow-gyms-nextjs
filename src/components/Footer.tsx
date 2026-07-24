@@ -1,22 +1,96 @@
-import { Col, Container } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
+import { BsFacebook, BsTwitter, BsLinkedin } from "react-icons/bs";
 
-/** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
-const Footer = () => (
-  <footer className="mt-auto py-3 bg-light">
-    <Container>
-      <Col className="text-center">
-        Department of Information and Computer Sciences
-        <br />
-        University of Hawaii
-        <br />
-        Honolulu, HI 96822
-        <br />
-        <a href="http://ics-software-engineering.github.io/nextjs-application-template">
-          Template Home Page
-        </a>
-      </Col>
-    </Container>
-  </footer>
-);
+function Footer() {
+  return (
+    <footer id="bottomMenu" className="footer mt-auto py-3 bg-dark text-white">
+      <Container>
+        <Row className="align-items-start">
+          {/* Logo */}
+          <Col>
+            <Image
+              src="/Logo-Text.png"
+              alt="Logo Placeholder"
+              width={175}
+              fluid
+            />
+          </Col>
+
+          <Col className="text-center">
+            <p className="mb-2">
+              <a href="#" className="text-white text-decoration-none">
+                CONTACT US
+              </a>
+            </p>
+            <p className="mb-2">
+              <a href="#" className="text-white text-decoration-none">
+                ABOUT US
+              </a>
+            </p>
+            <p className="mb-2">
+              <a href="#" className="text-white text-decoration-none">
+                TESTIMONIES
+              </a>
+            </p>
+          </Col>
+
+          <Col className="text-center">
+            <h5>UH Gyms</h5>
+            <p className="mb-2">
+              <a href="#" className="text-white text-decoration-none">
+                UH Mānoa
+              </a>
+            </p>
+            <p className="mb-2">
+              <a href="#" className="text-white text-decoration-none">
+                UH Hilo
+              </a>
+            </p>
+            <p>
+              <a href="#" className="text-white text-decoration-none">
+                UH West O&apos;ahu
+              </a>
+            </p>
+          </Col>
+
+          {/* Newsletter */}
+          <Col>
+            <h5>
+              <a href="#" className="text-white text-decoration-none">
+                NEWSLETTER
+              </a>
+            </h5>
+
+            <Form className="mb-3">
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                className="mb-2"
+              />
+              <Button variant="primary">
+                <a href="#" className="text-white text-decoration-none">
+                  SUBMIT
+                </a>
+              </Button>
+            </Form>
+
+            <div className="d-flex gap-3 fs-4">
+              <a href="#" className="text-white">
+                <BsFacebook />
+              </a>
+              <a href="#" className="text-white">
+                <BsTwitter />
+              </a>
+
+              <a href="#" className="text-white">
+                <BsLinkedin />
+              </a>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </footer>
+  );
+}
 
 export default Footer;
