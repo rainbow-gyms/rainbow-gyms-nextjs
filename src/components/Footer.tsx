@@ -34,8 +34,8 @@ function Footer() {
             </p>
           </Col>
 
-          <Col className="fs-6 fw-bold text-center">
-            <h5>UH Gyms</h5>
+          <Col className="fs-6 text-center">
+            <h5 className="fw-bold">UH Gyms</h5>
             <p className="mb-2">
               <a href="#" className="text-white text-decoration-none">
                 UH Mānoa
