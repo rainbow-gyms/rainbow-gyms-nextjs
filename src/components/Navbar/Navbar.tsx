@@ -32,8 +32,8 @@ const NavBar: React.FC = () => {
             <Nav.Link className="text-light" href="/sessions">
               My Sessions
             </Nav.Link>
-            <Nav.Link className="text-light" href="/join">
-              Join
+            <Nav.Link className="text-light" href="/create">
+              Create
             </Nav.Link>
 
             {session ? (
