@@ -10,7 +10,7 @@ const Home = () => (
     <Container fluid className="py-5 pt-0">
       {/* Hero Section */}
       <Row className="justify-content-center text-center pt-5 mb-5 px-3">
-        <Col xs={12} md={10} lg={8}>
+        <Col xs={12} md={8} lg={6}>
           <h1 className="display-4 display-md-3 fw-bold mb-3">
             Stay Active. Stay Connected.
           </h1>
@@ -41,7 +41,7 @@ const Home = () => (
             }}
           >
             <div
-              className="h-100 d-flex flex-column justify-content-center p-5"
+              className="h-100 d-flex flex-column justify-content-center p-4"
               style={{
                 minHeight: "350px",
                 background: "rgba(0, 0, 0, 0.45)",
@@ -68,7 +68,7 @@ const Home = () => (
             }}
           >
             <div
-              className="h-100 d-flex flex-column justify-content-center p-5"
+              className="h-100 d-flex flex-column justify-content-center p-4"
               style={{
                 minHeight: "350px",
                 background: "rgba(0, 0, 0, 0.45)",

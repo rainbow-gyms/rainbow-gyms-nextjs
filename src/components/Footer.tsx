@@ -34,7 +34,7 @@ function Footer() {
             </p>
           </Col>
 
-          <Col className="text-center">
+          <Col className="fs-6 fw-bold text-center">
             <h5>UH Gyms</h5>
             <p className="mb-2">
               <a href="#" className="text-white text-decoration-none">
@@ -56,7 +56,10 @@ function Footer() {
           {/* Newsletter */}
           <Col>
             <h5>
-              <a href="#" className="text-white text-decoration-none">
+              <a
+                href="#"
+                className="fs-6 fw-bold text-white text-decoration-none"
+              >
                 NEWSLETTER
               </a>
             </h5>
