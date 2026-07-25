@@ -75,6 +75,12 @@ const NavBar: React.FC = () => {
               </NavDropdown>
             ) : (
               <NavDropdown title="Login" id="login-dropdown" align="end">
+                { /*put profile here for now, but move to currentUser NavDropdown when auth works */ }
+                <NavDropdown.Item href="/profile">
+                  <PersonFill className="me-2" />
+                  Profile
+                </NavDropdown.Item>
+
                 <NavDropdown.Item href="/auth/signin">
                   <PersonFill className="me-2" />
                   Sign In
