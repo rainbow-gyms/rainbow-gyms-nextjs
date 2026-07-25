@@ -33,10 +33,7 @@ const NavBar: React.FC = () => {
               My Sessions
             </Nav.Link>
             <Nav.Link className="text-light px-3" href="/create">
-              Create a Session
-            </Nav.Link>
-            <Nav.Link className="text-light px-3" href="/join">
-              Join
+              Create
             </Nav.Link>
             <Nav.Link className="text-light px-3" href="/calendar">
               Calendar
@@ -75,7 +72,7 @@ const NavBar: React.FC = () => {
               </NavDropdown>
             ) : (
               <NavDropdown title="Login" id="login-dropdown" align="end">
-                { /*put profile here for now, but move to currentUser NavDropdown when auth works */ }
+                {/*put profile here for now, but move to currentUser NavDropdown when auth works */}
                 <NavDropdown.Item href="/profile">
                   <PersonFill className="me-2" />
                   Profile
