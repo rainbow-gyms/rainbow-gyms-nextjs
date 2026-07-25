@@ -1,22 +1,3 @@
-html,
-body {
-  --bs-light-rgb: 236, 236, 236;
-  box-sizing: border-box;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-.wrapper {
-  box-sizing: border-box;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.darkGradient {
-  background: linear-gradient(90deg, #212529, #343a40);
-}
-
 #test-row {
   display: flex;
   flex-direction: row;
@@ -32,4 +13,8 @@ body {
 /* Chrome, Safari, and Modern Edge scrollbar hiding */
 .row-container::-webkit-scrollbar {
   display: none;
+}
+
+.row p {
+    white-space: normal
 }

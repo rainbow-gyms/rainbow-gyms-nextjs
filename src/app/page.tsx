@@ -94,7 +94,7 @@ const Home = () => (
             while succeeding academically.
           </p>
 
-          <Button variant="success" size="lg">
+          <Button href = "/auth/signup" variant="success" size="lg">
             Create Your Account
           </Button>
         </Col>

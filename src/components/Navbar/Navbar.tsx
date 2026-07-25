@@ -21,19 +21,22 @@ const NavBar: React.FC = () => {
     <Navbar expand="lg" variant="dark" className="darkGradient py-2">
       <Container>
         {/* Logo on the left */}
-        <Navbar.Brand href="#">
-          <Image src="/Gym-Shark.png" alt="Logo" width={70} />
+        <Navbar.Brand href="/">
+          <Image src="/Gym-Shark.png" alt="Logo" width={90} />
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navbar" />
 
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto align-items-center">
-            <Nav.Link className="text-light" href="/sessions">
+            <Nav.Link className="text-light px-3" href="/sessions">
               My Sessions
             </Nav.Link>
-            <Nav.Link className="text-light" href="/create">
+            <Nav.Link className="text-light px-3" href="/create">
               Create
+            </Nav.Link>
+            <Nav.Link className="text-light px-3" href="/calendar">
+              Calendar
             </Nav.Link>
 
             {session ? (
@@ -69,6 +72,12 @@ const NavBar: React.FC = () => {
               </NavDropdown>
             ) : (
               <NavDropdown title="Login" id="login-dropdown" align="end">
+                {/*put profile here for now, but move to currentUser NavDropdown when auth works */}
+                <NavDropdown.Item href="/profile">
+                  <PersonFill className="me-2" />
+                  Profile
+                </NavDropdown.Item>
+
                 <NavDropdown.Item href="/auth/signin">
                   <PersonFill className="me-2" />
                   Sign In
