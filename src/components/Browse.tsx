@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, Form } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import styles from "./Browse.module.css";
 
 const BrowseMenu = () => {
@@ -12,8 +12,46 @@ const BrowseMenu = () => {
                     </p>
                 </Col>
             </Row>
-            <Card className={`${styles["custom-card"]} mb-5 p-4 border-0 shadow-sm`}>
-                <Form>For the filters</Form>
+            <Card className={`${styles['custom-card']} mb-5 p-4 border-0 shadow-sm`}>
+                <Form>
+                    <Row className="g-3">
+                        <Col md={3}>
+                            <Form.Group controlId="filterType">
+                                <Form.Label className="fw-bold">Session Type</Form.Label>
+                                <Form.Select>
+                                    <option value="">All Types (Select...)</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={3}>
+                            <Form.Group controlId="filterExperience">
+                                <Form.Label className="fw-bold">Experience Level</Form.Label>
+                                <Form.Select>
+                                    <option value="">All Levels (Select...)</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={3}>
+                            <Form.Group controlId="filterLocation">
+                                <Form.Label className="fw-bold">Gym Location</Form.Label>
+                                <Form.Select>
+                                    <option value="">All Levels (Select...)</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={2}>
+                            <Form.Group controlId="filterDate">
+                                <Form.Label className="fw-bold">Session Date</Form.Label>
+                                <Form.Control type="date" />
+                            </Form.Group>
+                        </Col>
+                        <Col md={1} className="d-flex align-items-end gap-2">
+                            <Button type="button" variant="outline-secondary" className={`w-100 ${styles['custom-btn']}`}>
+                                Reset
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
                 <div>For the displaying the different card sessions</div>
             </Card>
         </Container>
