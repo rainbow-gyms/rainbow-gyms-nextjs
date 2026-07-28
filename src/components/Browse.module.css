@@ -1,0 +1,11 @@
+:root {
+    --light-gray: rgb(200, 200, 200);
+}
+
+.custom-card {
+  background-color: var(--light-gray);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  height: 100%;
+}
