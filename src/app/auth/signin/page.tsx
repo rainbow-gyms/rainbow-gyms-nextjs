@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { signIn } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { signIn } from "next-auth/react"; // v5 compatible
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 
 /** The sign in page. */
 const SignIn = () => {
@@ -13,11 +13,12 @@ const SignIn = () => {
     };
     const email = target.email.value;
     const password = target.password.value;
-    await signIn('credentials', {
-      callbackUrl: '/list',
+    const result = await signIn("credentials", {
+      callbackUrl: "/calendar",
       email,
       password,
     });
+    console.log(result);
   };
 
   return (
@@ -35,10 +36,14 @@ const SignIn = () => {
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Password</Form.Label>
-                    <input name="password" type="password" className="form-control" />
+                    <input
+                      name="password"
+                      type="password"
+                      className="form-control"
+                    />
                   </Form.Group>
                   <Button type="submit" className="mt-3">
-                    Signin
+                    Sign-in
                   </Button>
                 </Form>
               </Card.Body>

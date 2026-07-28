@@ -1,9 +1,12 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcrypt";
 
 type AuthUser = {
   id: string;
-  randomKey: string;
+  email: string;
+  role: string;
 };
 
 export const authOptions: NextAuthOptions = {
@@ -27,18 +30,34 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        // Example:
-        // const user = await validateUser(credentials);
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-        // Return null if authentication fails
-        return null;
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
 
-        // Or return:
-        // return {
-        //   id: user.id,
-        //   randomKey: user.randomKey,
-        //   email: user.email,
-        // };
+        if (!user) {
+          return null;
+        }
+
+        const passwordValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        );
+
+        if (!passwordValid) {
+          return null;
+        }
+
+        return {
+          id: user.id.toString(),
+          email: user.email,
+          role: user.role,
+        };
       },
     }),
   ],
@@ -57,7 +76,7 @@ export const authOptions: NextAuthOptions = {
         const u = user as AuthUser;
 
         token.id = u.id;
-        token.randomKey = u.randomKey;
+        token.role = u.role;
       }
 
       return token;
@@ -65,8 +84,8 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id!;
-        session.user.randomKey = token.randomKey!;
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
       }
 
       return session;

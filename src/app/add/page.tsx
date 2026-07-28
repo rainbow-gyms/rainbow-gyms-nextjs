@@ -1,3 +1,5 @@
+// src/add/page.tsx
+
 import { loggedInProtectedPage } from "@/lib/page-protection";
 import AddStuffForm from "@/components/AddStuffForm";
 import { auth } from "@/lib/auth";
