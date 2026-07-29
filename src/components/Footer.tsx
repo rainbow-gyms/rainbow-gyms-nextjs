@@ -18,12 +18,12 @@ function Footer() {
 
           <Col className="text-center">
             <p className="mb-2">
-              <a href="#" className="text-white text-decoration-none">
+              <a href="/contact" className="text-white text-decoration-none">
                 CONTACT US
               </a>
             </p>
             <p className="mb-2">
-              <a href="#" className="text-white text-decoration-none">
+              <a href="/about" className="text-white text-decoration-none">
                 ABOUT US
               </a>
             </p>
