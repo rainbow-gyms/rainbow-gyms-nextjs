@@ -98,6 +98,7 @@ const SignUp = () => {
               </Card.Body>
               <Card.Footer>
                 Already have an account?
+                <span> </span>
                 <a href="/auth/signin">Sign in</a>
               </Card.Footer>
             </Card>

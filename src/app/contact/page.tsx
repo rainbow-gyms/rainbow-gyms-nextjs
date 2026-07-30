@@ -1,156 +1,93 @@
-import { Container, Col, Row, Image } from "react-bootstrap";
-
+import { Col, Row, Image, Button } from "react-bootstrap";
+import { Linkedin, EnvelopeAtFill, PencilSquare } from "react-bootstrap-icons";
 const ContactUs = () => (
   <main>
-    <Container>
-      <h1 className="text-center py-3" >Contact Us</h1>
-      <hr />
-      <Row className="justify-content-center py-1">
-        {/*first row image*/}
-        <Col md={5} lg={4}>
+      <Row>
+        {/*text*/}
+        <Col md={5} className="d-flex justify-content-center bg-dark text-white">
+          <div className="d-flex flex-column justify-content-center align-items-start me-md-5 p-4">
+            <h3 className="fw-bold fs-1">Contact Us</h3>
+            <h5 className="fs-3">We are happy to help, <br /> and hear from you!</h5>
+          </div>
+        </Col>
+        {/*image*/}
+        <Col md={6} className="p-0">
           <Image
             fluid
-            rounded
             src="/strong-man-gym.jpg"
             alt="Strong man working out in the gym"
             className="w-100 shadow-sm border-0 overflow-hidden"
             style={{
-              maxHeight: "350px",
               objectFit: "cover",
-              objectPosition: "center",
+              objectPosition: "start",
+              height: "100%", // Ensures the image stretches to match the height of the text block
             }}
           />
-        </Col>
-        {/*first row text*/}
-        <Col md={5} lg={4}>
-          <div
-            className="h-auto d-flex flex-column justify-content-center text-start p-2">
-            <h3 className="fw-bold">Our Purpose</h3>
-            <p className="mb-0" 
-              style = {{
-                fontSize: "90%"
-              }}
-            >
-              We created Rainbow Gyms with the purpose of making it convenient for people to
-              find the workouts they need, when they need it. We want to give everyone 
-              the ability to make lifelong connections from across the island, all while
-              staying healthy!
-            </p>
+          {/*
+          <div 
+            className="w-100 h-100 d-flex align-items-center justify-content-center text-black"
+            style={{
+              minHeight: "150px",
+            }}
+          >
+            <EnvelopeAtFill className="text-white me-md-5" size="50%" />
           </div>
+          */}
         </Col>
       </Row>
 
-      {/*second row v1: shows only on md screen and higher*/}
-      <Row className="justify-content-center py-3 d-none d-md-flex">
-        {/*second row text*/}
-        <Col md={5} lg={4}>
-          <div className="h-auto d-flex flex-column justify-content-center text-end p-2">
-            <h3 className="fw-bold">Our Motivation</h3>
-            <p className="mb-0" 
-              style = {{
-                fontSize: "90%"
-              }}
-            >
-              We understand that for many beginners, and even some of the more experienced gym-goers
-              can feel out of place. We want to lower the bar for entry with our app by giving people that extra push
-              through getting them a welcoming group of people, both new and experienced, who will motivate them
-              to keep working and make the feel included. For those already more-than-comfortable with the gym, 
-              we also know it can be hard to stick to plans, but we aim to make it simple and centralized within 
-              our app for your convenience!
-            </p>
-          </div>
-        </Col>
-        {/*second row image*/}
-        <Col md={5} lg={4}>
-          <Image
-            fluid
-            rounded
-            src="/strong-man-gym.jpg"
-            alt="Strong man working out in the gym"
-            className="w-100 shadow-sm border-0 overflow-hidden"
-            style={{
-              maxHeight: "350px",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
+      <Row className="justify-content-center pt-3">
+        {/*text*/}
+        <Col md={12} className="justify-content-center">
+          <Row className="justify-content-center">
+            <Col className="justify-content-center ms-md-5 p-5">
+              <h3 className="fw-bold"><EnvelopeAtFill /> Email</h3>
+              <hr style={{width: "50%"}} />
+              <ul>
+                <li>johndoe@hawaii.edu</li>
+                <li>janedoe@hawaii.edu</li>
+                <li>jeffdoe@hawaii.edu</li>
+              </ul>
+            </Col>
+
+            <Col className="justify-content-center p-5">
+              <h3 className="fw-bold"><Linkedin /> LinkedIn</h3>
+              <hr style={{width: "50%"}} />
+              <ul>
+                <li><a target="_blank" href="https://www.linkedin.com/">John Doe</a></li>
+                <li><a target="_blank" href="https://www.linkedin.com/">Jane Doe</a></li>
+                <li><a target="_blank" href="https://www.linkedin.com/">Jeff Doe</a></li>
+              </ul>
+            </Col>
+          </Row>
         </Col>
       </Row>
 
-      {/*second row v2: shows only on sm screen or lower*/}
-      <Row className="justify-content-center py-3 d-flex d-md-none">
-        {/*second row image*/}
-        <Col md={5} lg={4}>
-          <Image
-            fluid
-            rounded
-            src="/strong-man-gym.jpg"
-            alt="Strong man working out in the gym"
-            className="w-100 shadow-sm border-0 overflow-hidden"
-            style={{
-              maxHeight: "350px",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
+      <Row className="justify-content-center pb-3">
+        <Col className="justify-content-center ms-md-5 p-5">
+          <h3 className="fw-bold"><PencilSquare /> Feedback</h3>
+          <hr style={{width: "50%"}} />
+          <textarea 
+            placeholder="Type Here"
+            style ={{
+              width: "90%",
+              height: "50%"
+            }} 
           />
-        </Col>
-        {/*second row text*/}
-        <Col md={5} lg={4}>
-          <div className="h-auto d-flex flex-column justify-content-center text-start p-2">
-            <h3 className="fw-bold">Our Motivation</h3>
-            <p className="mb-0" 
-              style = {{
-                fontSize: "90%"
-              }}
-            >
-              We understand that for many beginners, and even some of the more experienced gym-goers
-              can feel out of place. We want to lower the bar for entry with our app by giving people that extra push
-              through getting them a welcoming group of people, both new and experienced, who will motivate them
-              to keep working and make the feel included. For those already more-than-comfortable with the gym, 
-              we also know it can be hard to stick to plans, but we aim to make it simple and centralized within 
-              our app for your convenience!
-            </p>
-          </div>
+          <br />
+          <Button 
+            className="my-3 bg-dark"
+            style ={{
+              border: "none"
+            }}
+          >
+            <a href="#" className="text-white text-decoration-none">
+              SUBMIT
+            </a>
+          </Button>
         </Col>
       </Row>
-
-      <Row className="justify-content-center py-3">
-        {/*third row image*/}
-        <Col md={5} lg={4}>
-          <Image
-            fluid
-            rounded
-            src="/strong-man-gym.jpg"
-            alt="Students"
-            className="w-100 shadow-sm border-0 overflow-hidden"
-            style={{
-              maxHeight: "350px",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-        </Col>
-        {/*third row text*/}
-        <Col md={5} lg={4}>
-          <div className="h-auto d-flex flex-column justify-content-center p-2">
-            <h3 className="fw-bold">Our Community</h3>
-            <p className="mb-0" 
-              style = {{
-                fontSize: "90%"
-              }}
-            >
-              With over 20,000 students across UH, and campuses over 200 American Footbal fields wide,
-              you will probably miss the chance to meet so many wonderful and like-minded students who
-              attend the same campus as you. We want to serve the UH community by bringing folks closer through
-              providing these healthy opportunities to meet people from all kinds of majors, walks of life, and 
-              more, via our app!
-            </p>
-          </div>
-        </Col> 
-      </Row>
-    </Container>
   </main>
-
 );
 
 export default ContactUs;
