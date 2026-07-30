@@ -7,6 +7,10 @@ type AuthUser = {
   id: string;
   email: string;
   role: string;
+  /*Below is for adding new session properties*/
+  profilePic: string;
+  firstName: string;
+  lastName: string;
 };
 
 export const authOptions: NextAuthOptions = {
@@ -57,6 +61,10 @@ export const authOptions: NextAuthOptions = {
           id: user.id.toString(),
           email: user.email,
           role: user.role,
+          /*Below is for adding new session properties*/
+          profilePic: user.profilePic,
+          firstName: user.firstName,
+          lastName: user.lastName,
         };
       },
     }),
@@ -77,6 +85,10 @@ export const authOptions: NextAuthOptions = {
 
         token.id = u.id;
         token.role = u.role;
+        /*test again*/
+        token.profilePic = u.profilePic;
+        token.firstName = u.firstName;
+        token.lastName = u.lastName;
       }
 
       return token;
@@ -86,6 +98,10 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        /*Below is for adding new session properties*/
+        session.user.profilePic = token.profilePic as string;
+        session.user.firstName = token.firstName as string;
+        session.user.lastName = token.lastName as string;
       }
 
       return session;
