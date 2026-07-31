@@ -11,6 +11,8 @@ import { prisma } from "./prisma";
 export async function createUser(credentials: {
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
 }) {
   // console.log(`createUser data: ${JSON.stringify(credentials, null, 2)}`);
   const existingUser = await prisma.user.findUnique({
@@ -27,6 +29,8 @@ export async function createUser(credentials: {
     data: {
       email: credentials.email,
       password,
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
       role: "USER",
     },
   });

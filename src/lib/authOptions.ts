@@ -85,7 +85,7 @@ export const authOptions: NextAuthOptions = {
 
         token.id = u.id;
         token.role = u.role;
-        /*test again*/
+        /*Below is for adding new session properties*/
         token.profilePic = u.profilePic;
         token.firstName = u.firstName;
         token.lastName = u.lastName;

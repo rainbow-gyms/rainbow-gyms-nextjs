@@ -58,10 +58,10 @@ const ChangePassword = () => {
 
   return (
     <main>
-      <Container>
+      <Container fluid className="mb-3">
         <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Change Password</h1>
+          <Col xs={12} md={5}>
+            <h1 className="text-center py-3">Change Password</h1>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>

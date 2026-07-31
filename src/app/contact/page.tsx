@@ -1,7 +1,8 @@
-import { Col, Row, Image, Button } from "react-bootstrap";
+import { Col, Row, Image, Button, Container } from "react-bootstrap";
 import { Linkedin, EnvelopeAtFill, PencilSquare } from "react-bootstrap-icons";
 const ContactUs = () => (
   <main>
+    <Container fluid>
       <Row>
         {/*text*/}
         <Col md={5} className="d-flex justify-content-center bg-dark text-white">
@@ -40,7 +41,7 @@ const ContactUs = () => (
         {/*text*/}
         <Col md={12} className="justify-content-center">
           <Row className="justify-content-center">
-            <Col className="justify-content-center ms-md-5 p-5">
+            <Col className="justify-content-center ms-md-5 px-5 py-1 py-md-5">
               <h3 className="fw-bold"><EnvelopeAtFill /> Email</h3>
               <hr style={{width: "50%"}} />
               <ul>
@@ -50,7 +51,7 @@ const ContactUs = () => (
               </ul>
             </Col>
 
-            <Col className="justify-content-center p-5">
+            <Col className="justify-content-center px-5 py-1 py-md-5 ">
               <h3 className="fw-bold"><Linkedin /> LinkedIn</h3>
               <hr style={{width: "50%"}} />
               <ul>
@@ -64,19 +65,19 @@ const ContactUs = () => (
       </Row>
 
       <Row className="justify-content-center pb-3">
-        <Col className="justify-content-center ms-md-5 p-5">
+        <Col className="justify-content-center ms-md-5 px-5 py-1 py-md-5">
           <h3 className="fw-bold"><PencilSquare /> Feedback</h3>
           <hr style={{width: "50%"}} />
           <textarea 
             placeholder="Type Here"
             style ={{
               width: "90%",
-              height: "50%"
+              height: "45%"
             }} 
           />
           <br />
           <Button 
-            className="my-3 bg-dark"
+            className="mb-3 bg-dark"
             style ={{
               border: "none"
             }}
@@ -87,6 +88,7 @@ const ContactUs = () => (
           </Button>
         </Col>
       </Row>
+    </Container>
   </main>
 );
 

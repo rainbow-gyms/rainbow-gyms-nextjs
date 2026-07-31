@@ -23,10 +23,10 @@ const SignIn = () => {
 
   return (
     <main>
-      <Container>
+      <Container fluid className="mb-3">
         <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Sign In</h1>
+          <Col xs={12} md={5}>
+            <h1 className="text-center py-3">Sign In</h1>
             <Card>
               <Card.Body>
                 <Form method="post" onSubmit={handleSubmit}>

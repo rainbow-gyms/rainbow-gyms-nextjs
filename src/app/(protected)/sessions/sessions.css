@@ -4,8 +4,6 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   white-space: nowrap;
-  max-width: 100%; 
-  height: auto;
   scrollbar-width: none;    /* Firefox */
   -ms-overflow-style: none; /* IE/Legacy Edge */
 }

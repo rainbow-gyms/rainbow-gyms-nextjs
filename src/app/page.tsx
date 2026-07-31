@@ -1,7 +1,13 @@
+"use client";
+
 import { Button, Col, Card, Container, Row } from "react-bootstrap";
+import { useSession } from "next-auth/react";
 
 /** The Home page. */
-const Home = () => (
+const Home = () => {
+  const { data: session } = useSession();
+
+  return(
   <main
     style={{
       fontFamily: '"Helvetica Neue", Arial, sans-serif',
@@ -84,23 +90,30 @@ const Home = () => (
         </Col>
       </Row>
 
+      
       {/* Bottom CTA */}
+      {/*!session && Removes parts of Bottom CTA if user has a session/is logged in*/}
+      {!session && (
       <Row className="justify-content-center text-center pt-3 border-top">
         <Col lg={8}>
           <h2 className="fw-bold mb-3">Ready to start your fitness journey?</h2>
-
+      
           <p className="mb-4">
             Join Rainbow-Gyms and connect with students who want to stay active
             while succeeding academically.
           </p>
 
+          
           <Button href = "/auth/signup" variant="success" size="lg">
             Create Your Account
           </Button>
+          
         </Col>
       </Row>
+      )}
     </Container>
   </main>
-);
+  );
+};
 
 export default Home;

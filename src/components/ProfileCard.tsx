@@ -9,7 +9,6 @@ const ProfileCard: React.FC = () => {
   const { data: session } = useSession();
   const currentUser = session?.user;
   const role = session?.user?.role;
-  console.log(currentUser);
 
   return (
   <main
@@ -99,7 +98,7 @@ const ProfileCard: React.FC = () => {
             >
               <Row>
                 <h2>About Me</h2>
-                <p>Hi, my name is John, and I am here as a test for now!</p>
+                <p>Hi, my name is {currentUser?.firstName}, and I am here as a test for now!</p>
               </Row>
             </div>
           </Card>

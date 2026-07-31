@@ -1,22 +1,28 @@
 "use client";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Container } from "react-bootstrap";
+import { ArrowBarLeft, ArrowBarRight } from "react-bootstrap-icons";
 import './sessions.css'
 
 const mySessions = () => (
-    <Row id = "test-row" className="justify-content-start mt-5 g-4 mb-5 p-5">
-        <Col md={5} lg={4}>
+  <Container fluid>
+    <Row id = "test-row" className="justify-content-start mt-5 g-2 mb-md-5 p-md-5">
+        <Col sm={12} md={5} lg={4}>
           <Card
-            className="h-100 shadow-sm border-0 overflow-hidden text-white"
+            className="shadow-sm border-0 overflow-hidden text-white"
             style={{
               backgroundImage: "url('/strong-man-gym.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
+              minHeight: "100%",
+              minWidth: "100%"
             }}
           >
             <div
-              className="h-100 d-flex flex-column justify-content-left p-4"
+              className="d-flex flex-column justify-content-left p-4"
               style={{
                 background: "rgba(0, 0, 0, 0.45)",
+                minHeight: "100%",
+                minWidth: "100%"
               }}
             >
               <h3 className="fw-bold">Session 1</h3>
@@ -30,19 +36,23 @@ const mySessions = () => (
           </Card>
         </Col>
 
-        <Col md={5} lg={4}>
+        <Col sm={12} md={5} lg={4}>
           <Card
-            className="h-100 shadow-sm border-0 overflow-hidden text-white"
+            className="shadow-sm border-0 overflow-hidden text-white"
             style={{
               backgroundImage: "url('/resistance-band-squats.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
+              minHeight: "100%",
+              minWidth: "100%"
             }}
           >
             <div
-              className="h-100 d-flex flex-column justify-content-left p-4"
+              className="d-flex flex-column justify-content-left p-4"
               style={{
                 background: "rgba(0, 0, 0, 0.45)",
+                minHeight: "100%",
+                minWidth: "100%"
               }}
             >
               <h3 className="fw-bold">Session 2</h3>
@@ -55,19 +65,23 @@ const mySessions = () => (
           </Card>
         </Col>
 
-        <Col md={5} lg={4}>
+        <Col sm={12} md={5} lg={4}>
           <Card
-            className="h-100 shadow-sm border-0 overflow-hidden text-white"
+            className="shadow-sm border-0 overflow-hidden text-white"
             style={{
               backgroundImage: "url('/resistance-band-squats.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
+              minHeight: "100%",
+              minWidth: "100%"
             }}
           >
             <div
-              className="h-100 d-flex flex-column justify-content-left p-4"
+              className="d-flex flex-column justify-content-left p-4"
               style={{
                 background: "rgba(0, 0, 0, 0.45)",
+                minHeight: "100%",
+                minWidth: "100%"
               }}
             >
               <h3 className="fw-bold">Session 3</h3>
@@ -80,19 +94,23 @@ const mySessions = () => (
           </Card>
         </Col>
 
-        <Col md={5} lg={4}>
+        <Col sm={12} md={5} lg={4}>
           <Card
-            className="h-100 shadow-sm border-0 overflow-hidden text-white"
+            className="shadow-sm border-0 overflow-hidden text-white"
             style={{
               backgroundImage: "url('/resistance-band-squats.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
+              minHeight: "100%",
+              minWidth: "100%"
             }}
           >
             <div
-              className="h-100 d-flex flex-column justify-content-left p-4"
+              className="d-flex flex-column justify-content-left p-4"
               style={{
                 background: "rgba(0, 0, 0, 0.45)",
+                minHeight: "100%",
+                minWidth: "100%"
               }}
             >
               <h3 className="fw-bold">Session 4</h3>
@@ -104,9 +122,11 @@ const mySessions = () => (
             </div>
           </Card>
         </Col>
-
-
       </Row>
+      <div className="d-flex d-md-none justify-content-center align-items-center mt-2 mb-5">
+        <ArrowBarLeft />SCROLL<ArrowBarRight />
+      </div>
+    </Container>
 );
 
 export default mySessions;

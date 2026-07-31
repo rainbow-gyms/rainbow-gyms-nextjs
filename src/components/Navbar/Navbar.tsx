@@ -7,8 +7,6 @@ import {
   PersonPlusFill,
   BoxArrowRight,
   Lock,
-  InfoCircle,
-  Telephone,
 } from "react-bootstrap-icons";
 import "./navbar.css";
 import Link from "next/link";
@@ -81,17 +79,6 @@ const NavBar: React.FC = () => {
                 id="login-dropdown"
                 align="end"
               >
-                {/*put profile here for now, but move to currentUser NavDropdown when auth works */}
-                <NavDropdown.Item href="/about">
-                  <InfoCircle className="me-2" />
-                  About Us!
-                </NavDropdown.Item>
-
-                <NavDropdown.Item href="/contact">
-                  <Telephone className="me-2" />
-                  Contact
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} href="/auth/signin">
                   <PersonFill className="me-2" />
                   Sign In

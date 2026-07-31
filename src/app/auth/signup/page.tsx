@@ -8,6 +8,8 @@ import { Card, Col, Container, Button, Form, Row } from 'react-bootstrap';
 import { createUser } from '@/lib/dbActions';
 
 type SignUpForm = {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -17,6 +19,8 @@ type SignUpForm = {
 /** The sign up page. */
 const SignUp = () => {
   const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
     email: Yup.string().required('Email is required').email('Email is invalid'),
     password: Yup.string()
       .required('Password is required')
@@ -45,13 +49,31 @@ const SignUp = () => {
 
   return (
     <main>
-      <Container>
+      <Container fluid className="mb-3">
         <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Sign Up</h1>
+          <Col xs={12} md={5}>
+            <h1 className="text-center py-3">Sign Up</h1>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Group className="form-group">
+                    <Form.Label>First Name</Form.Label>
+                    <input
+                      type="text"
+                      {...register('firstName')}
+                      className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                    />
+                    <div className="invalid-feedback">{errors.lastName?.message}</div>
+                  </Form.Group>
+                  <Form.Group className="form-group">
+                    <Form.Label>Last Name</Form.Label>
+                    <input
+                      type="text"
+                      {...register('lastName')}
+                      className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                    />
+                    <div className="invalid-feedback">{errors.lastName?.message}</div>
+                  </Form.Group>
                   <Form.Group className="form-group">
                     <Form.Label>Email</Form.Label>
                     <input
