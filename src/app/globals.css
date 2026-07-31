@@ -23,13 +23,17 @@ body {
   flex-wrap: nowrap;
   overflow-x: auto;
   white-space: nowrap;
-  max-width: 100%; 
+  max-width: 100%;
   height: auto;
-  scrollbar-width: none;    /* Firefox */
+  scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Legacy Edge */
 }
 
 /* Chrome, Safari, and Modern Edge scrollbar hiding */
 .row-container::-webkit-scrollbar {
   display: none;
+}
+
+.main-content {
+  flex: 1;
 }

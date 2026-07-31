@@ -3,6 +3,8 @@
 
 import { hash } from "bcrypt";
 import { prisma } from "./prisma";
+import { auth } from "./auth";
+import { redirect } from "next/navigation";
 
 /**
  * Creates a new user in the database.
@@ -48,4 +50,45 @@ export async function changePassword(credentials: {
       password,
     },
   });
+}
+
+export async function createProfile(data: {
+  displayName: string;
+  major: string;
+  year: string;
+  experienceLevel: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  bio: string;
+  preferredGym: string;
+  profilePicture?: string;
+}) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/auth/signin");
+  }
+
+  const existingProfile = await prisma.profile.findUnique({
+    where: {
+      userId: Number(session.user.id),
+    },
+  });
+
+  if (existingProfile) {
+    throw new Error("Profile already exists");
+  }
+
+  await prisma.profile.create({
+    data: {
+      userId: Number(session.user.id),
+      displayName: data.displayName,
+      major: data.major,
+      year: data.year,
+      experienceLevel: data.experienceLevel,
+      bio: data.bio,
+      preferredGym: data.preferredGym,
+      profilePicture: data.profilePicture,
+    },
+  });
+
+  redirect("/calendar");
 }

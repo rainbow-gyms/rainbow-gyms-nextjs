@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
     <Navbar expand="lg" variant="dark" className="darkGradient py-2">
       <Container>
         {/* Logo on the left */}
-        <Navbar.Brand href="/">
+        <Navbar.Brand as={Link} href={session ? "/profile/check" : "/"}>
           <Image src="/Gym-Shark.png" alt="Logo" width={90} />
         </Navbar.Brand>
 
@@ -32,14 +32,17 @@ const NavBar: React.FC = () => {
           <Nav className="ms-auto align-items-center">
             {session && (
               <>
-                <Link href="/browse" className="nav-link text-light px-3">
-                  Browse Sessions
-                </Link>
-                <Link href="/sessions" className="nav-link text-light px-3">
+                <Link
+                  href={session ? "/profile/check" : "/sessions"}
+                  className="nav-link text-light px-3"
+                >
                   My Sessions
                 </Link>
 
-                <Link href="/create" className="nav-link text-light px-3">
+                <Link
+                  href={session ? "/profile/check" : "/create"}
+                  className="nav-link text-light px-3"
+                >
                   Create
                 </Link>
 

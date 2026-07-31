@@ -6,12 +6,18 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding the database");
+
   const password = await hash("changeme", 10);
-  config.defaultAccounts.forEach(async (account) => {
+
+  for (const account of config.defaultAccounts) {
     const role = (account.role as Role) || Role.USER;
-    console.log(`  Creating user: ${account.email} with role: ${role}`);
+
+    console.log(`Creating user: ${account.email} with role: ${role}`);
+
     await prisma.user.upsert({
-      where: { email: account.email },
+      where: {
+        email: account.email,
+      },
       update: {
         password,
       },
@@ -21,8 +27,7 @@ async function main() {
         role,
       },
     });
-    // console.log(`  Created user: ${user.email} with role: ${user.role}`);
-  });
+  }
 }
 main()
   .then(() => prisma.$disconnect())
