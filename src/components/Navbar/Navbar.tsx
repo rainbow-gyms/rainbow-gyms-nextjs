@@ -32,17 +32,11 @@ const NavBar: React.FC = () => {
           <Nav className="ms-auto align-items-center">
             {session && (
               <>
-                <Link
-                  href={session ? "/profile/check" : "/sessions"}
-                  className="nav-link text-light px-3"
-                >
+                <Link href="/sessions" className="nav-link text-light px-3">
                   My Sessions
                 </Link>
 
-                <Link
-                  href={session ? "/profile/check" : "/create"}
-                  className="nav-link text-light px-3"
-                >
+                <Link href="/create" className="nav-link text-light px-3">
                   Create
                 </Link>
 
