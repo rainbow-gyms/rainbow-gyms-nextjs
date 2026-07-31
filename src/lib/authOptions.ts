@@ -7,6 +7,7 @@ type AuthUser = {
   id: string;
   email: string;
   role: string;
+  /*Below is for adding new session properties*/
 };
 
 export const authOptions: NextAuthOptions = {
@@ -57,6 +58,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id.toString(),
           email: user.email,
           role: user.role,
+          /*Below is for adding new session properties*/
         };
       },
     }),
@@ -77,6 +79,7 @@ export const authOptions: NextAuthOptions = {
 
         token.id = u.id;
         token.role = u.role;
+        /*test again*/
       }
 
       return token;
@@ -86,6 +89,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        /*Below is for adding new session properties*/
       }
 
       return session;

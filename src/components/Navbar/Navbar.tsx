@@ -76,7 +76,7 @@ const NavBar: React.FC = () => {
                 {/*put profile here for now, but move to currentUser NavDropdown when auth works */}
                 <NavDropdown.Item href="/about">
                   <InfoCircle className="me-2" />
-                  About Us
+                  About Us!
                 </NavDropdown.Item>
 
                 <NavDropdown.Item href="/contact">
