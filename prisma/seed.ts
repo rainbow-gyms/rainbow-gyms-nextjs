@@ -24,8 +24,6 @@ async function main() {
       create: {
         email: account.email,
         password,
-        firstName: account.firstName,
-        lastName: account.lastName,
         role,
       },
     });

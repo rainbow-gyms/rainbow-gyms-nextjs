@@ -21,7 +21,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <>
       <Image
-        src={profile.profilePicture ?? "/default-profile.png"}
+        src={profile.profilePicture ?? "/pfp-default.png"}
         width={100}
         height={100}
         roundedCircle
