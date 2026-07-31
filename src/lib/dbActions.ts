@@ -5,7 +5,13 @@ import { hash } from "bcrypt";
 import { prisma } from "./prisma";
 import { auth } from "./auth";
 import { redirect } from "next/navigation";
-import { WorkoutType, SchoolYear, ExperienceLevel } from "@prisma/client";
+import {
+  WorkoutType,
+  SchoolYear,
+  ExperienceLevel,
+  SessionStatus,
+  Prisma,
+} from "@prisma/client";
 
 /**
  * Creates a new user in the database.
@@ -109,20 +115,22 @@ export async function createSession(data: {
     redirect("/auth/signin");
   }
 
+  const userId = Number(session.user.id);
+
   await prisma.session.create({
     data: {
-      hostId: Number(session.user.id),
+      hostId: userId,
       name: data.name,
       workoutType: data.workoutType,
       location: data.location,
       description: data.description,
       startTime: data.startTime,
       maxPeople: data.maxPeople,
-      status: "OPEN",
+      status: SessionStatus.OPEN,
 
       participants: {
         create: {
-          userId: Number(session.user.id),
+          userId,
         },
       },
     },
@@ -138,11 +146,30 @@ export async function joinSession(sessionId: number) {
     redirect("/auth/signin");
   }
 
+  const userId = Number(session.user.id);
+
+  const sessionInfo = await prisma.session.findUnique({
+    where: {
+      id: sessionId,
+    },
+    include: {
+      participants: true,
+    },
+  });
+
+  if (!sessionInfo) {
+    throw new Error("Session not found");
+  }
+
+  if (sessionInfo.status === SessionStatus.FULL) {
+    throw new Error("Session is full");
+  }
+
   const existingParticipant = await prisma.sessionParticipant.findUnique({
     where: {
       sessionId_userId: {
         sessionId,
-        userId: Number(session.user.id),
+        userId,
       },
     },
   });
@@ -154,10 +181,34 @@ export async function joinSession(sessionId: number) {
   await prisma.sessionParticipant.create({
     data: {
       sessionId,
-      userId: Number(session.user.id),
+      userId,
     },
   });
+
+  const participantCount = sessionInfo.participants.length + 1;
+
+  if (participantCount >= sessionInfo.maxPeople) {
+    await prisma.session.update({
+      where: {
+        id: sessionId,
+      },
+      data: {
+        status: SessionStatus.FULL,
+      },
+    });
+  }
 }
+
+export type AvailableSession = Prisma.SessionGetPayload<{
+  include: {
+    host: {
+      include: {
+        profile: true;
+      };
+    };
+    participants: true;
+  };
+}>;
 
 export async function getAvailableSessions() {
   return await prisma.session.findMany({

@@ -1,55 +1,98 @@
 "use client";
 
-import { signIn } from "next-auth/react"; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Alert,
+} from "react-bootstrap";
 
-/** The sign in page. */
 const SignIn = () => {
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      email: { value: string };
-      password: { value: string };
-    };
+
+    setError("");
+    setLoading(true);
+
+    const target = e.currentTarget;
+
     const email = target.email.value;
     const password = target.password.value;
+
     const result = await signIn("credentials", {
       callbackUrl: "/profile/check",
       email,
       password,
+      redirect: false,
     });
-    console.log(result);
-  };
 
+    setLoading(false);
+
+    if (result?.error) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    if (result?.ok) {
+      window.location.href = "/profile/check";
+    }
+  };
   return (
-    <main>
+    <main
+      className="d-flex align-items-center"
+      style={{
+        minHeight: "100vh",
+        background: "#f8f9fa",
+      }}
+    >
       <Container>
         <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Sign In</h1>
-            <Card>
-              <Card.Body>
-                <Form method="post" onSubmit={handleSubmit}>
-                  <Form.Group controlId="formBasicEmail">
+          <Col xs={11} sm={8} md={5} lg={4}>
+            <Card className="shadow border-0">
+              <Card.Body className="p-4">
+                <h1 className="text-center mb-4">Welcome Back</h1>
+
+                {error && <Alert variant="danger">{error}</Alert>}
+
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
                     <Form.Label>Email</Form.Label>
-                    <input name="email" type="text" className="form-control" />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Password</Form.Label>
-                    <input
-                      name="password"
-                      type="password"
-                      className="form-control"
+
+                    <Form.Control
+                      name="email"
+                      type="email"
+                      placeholder="you@example.com"
+                      required
                     />
                   </Form.Group>
-                  <Button type="submit" className="mt-3">
-                    Sign-in
+
+                  <Form.Group className="mb-4">
+                    <Form.Label>Password</Form.Label>
+
+                    <Form.Control
+                      name="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      required
+                    />
+                  </Form.Group>
+
+                  <Button type="submit" className="w-100" disabled={loading}>
+                    {loading ? "Signing in..." : "Sign In"}
                   </Button>
                 </Form>
               </Card.Body>
-              <Card.Footer>
-                Don&apos;t have an account?
-                <a href="/auth/signup">Sign up</a>
+
+              <Card.Footer className="text-center bg-white border-0">
+                Don&apos;t have an account? <a href="/auth/signup">Sign up</a>
               </Card.Footer>
             </Card>
           </Col>

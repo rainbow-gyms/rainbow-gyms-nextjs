@@ -1,4 +1,4 @@
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -11,117 +11,53 @@ export default async function mySessions() {
     redirect("/auth/signin");
   }
 
+  const userId = Number(session.user.id);
+
   const profile = await prisma.profile.findUnique({
     where: {
-      userId: Number(session.user.id),
+      userId,
     },
   });
 
   if (!profile) {
     redirect("/profile/setup");
   }
+
+  // ADD THIS HERE
+  const sessions = await prisma.session.findMany({
+    where: {
+      hostId: userId,
+    },
+    orderBy: {
+      startTime: "asc",
+    },
+  });
+
   return (
-    <Row id="test-row" className="justify-content-start mt-5 g-4 mb-5 p-5">
-      <Col md={5} lg={4}>
-        <Card
-          className="h-100 shadow-sm border-0 overflow-hidden text-white"
-          style={{
-            backgroundImage: "url('/strong-man-gym.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div
-            className="h-100 d-flex flex-column justify-content-left p-4"
-            style={{
-              background: "rgba(0, 0, 0, 0.45)",
-            }}
-          >
-            <h3 className="fw-bold">Session 1</h3>
-            <h5>Dumbbell Lifting</h5>
-            <p className="mb-0">
-              Join a community of UH Mānoa CS and Computer Engineering students.
-              Find workout partners, stay accountable, and build connections
-              through fitness.
-            </p>
-          </div>
-        </Card>
-      </Col>
+    <div className="container mt-4">
+      <h1>My Sessions</h1>
 
-      <Col md={5} lg={4}>
-        <Card
-          className="h-100 shadow-sm border-0 overflow-hidden text-white"
-          style={{
-            backgroundImage: "url('/resistance-band-squats.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div
-            className="h-100 d-flex flex-column justify-content-left p-4"
-            style={{
-              background: "rgba(0, 0, 0, 0.45)",
-            }}
-          >
-            <h3 className="fw-bold">Session 2</h3>
-            <h5>Pilates</h5>
-            <p className="mb-0">
-              Schedule workouts around classes and assignments while building
-              consistency and maintaining a healthy balance.
-            </p>
-          </div>
-        </Card>
-      </Col>
+      {sessions.length === 0 ? (
+        <p>You haven&apos;t created any sessions yet.</p>
+      ) : (
+        <Row>
+          {sessions.map((workout) => (
+            <Col key={workout.id} md={6} lg={4}>
+              <div className="card mb-3">
+                <div className="card-body">
+                  <h5 className="card-title">{workout.name}</h5>
 
-      <Col md={5} lg={4}>
-        <Card
-          className="h-100 shadow-sm border-0 overflow-hidden text-white"
-          style={{
-            backgroundImage: "url('/resistance-band-squats.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div
-            className="h-100 d-flex flex-column justify-content-left p-4"
-            style={{
-              background: "rgba(0, 0, 0, 0.45)",
-            }}
-          >
-            <h3 className="fw-bold">Session 3</h3>
-            <h5>Cardio All Day!</h5>
-            <p className="mb-0">
-              Schedule workouts around classes and assignments while building
-              consistency and maintaining a healthy balance.
-            </p>
-          </div>
-        </Card>
-      </Col>
+                  <p>Workout: {workout.workoutType}</p>
 
-      <Col md={5} lg={4}>
-        <Card
-          className="h-100 shadow-sm border-0 overflow-hidden text-white"
-          style={{
-            backgroundImage: "url('/resistance-band-squats.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div
-            className="h-100 d-flex flex-column justify-content-left p-4"
-            style={{
-              background: "rgba(0, 0, 0, 0.45)",
-            }}
-          >
-            <h3 className="fw-bold">Session 4</h3>
-            <h5>Yoga</h5>
-            <p className="mb-0">
-              Schedule workouts around classes and assignments while building
-              consistency and maintaining a healthy balance.
-            </p>
-          </div>
-        </Card>
-      </Col>
-    </Row>
+                  <p>Location: {workout.location}</p>
+
+                  <p>Time: {new Date(workout.startTime).toLocaleString()}</p>
+                </div>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
   );
 }
