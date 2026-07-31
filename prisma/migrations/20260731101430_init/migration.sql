@@ -1,13 +1,11 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `preferredGym` on the `Profile` table. All the data in the column will be lost.
-  - Changed the type of `year` on the `Profile` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
-  - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateEnum
-CREATE TYPE "WorkoutType" AS ENUM ('CHEST', 'BACK', 'LEGS', 'SHOULDERS', 'BICEPS', 'TRICEPS', 'CARDIO', 'FULL_BODY', 'OTHER');
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+
+-- CreateEnum
+CREATE TYPE "ExperienceLevel" AS ENUM ('BEGINNER', 'INTERMEDIATE', 'ADVANCED');
+
+-- CreateEnum
+CREATE TYPE "WorkoutType" AS ENUM ('CHEST', 'BACK', 'LEGS', 'SHOULDERS', 'BICEPS', 'TRICEPS', 'CARDIO');
 
 -- CreateEnum
 CREATE TYPE "SessionStatus" AS ENUM ('OPEN', 'FULL', 'CANCELLED', 'COMPLETED');
@@ -15,17 +13,33 @@ CREATE TYPE "SessionStatus" AS ENUM ('OPEN', 'FULL', 'CANCELLED', 'COMPLETED');
 -- CreateEnum
 CREATE TYPE "SchoolYear" AS ENUM ('FRESHMAN', 'SOPHOMORE', 'JUNIOR', 'SENIOR', 'GRADUATE');
 
--- DropForeignKey
-ALTER TABLE "Profile" DROP CONSTRAINT "Profile_userId_fkey";
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'USER',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- AlterTable
-ALTER TABLE "Profile" DROP COLUMN "preferredGym",
-DROP COLUMN "year",
-ADD COLUMN     "year" "SchoolYear" NOT NULL;
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
+-- CreateTable
+CREATE TABLE "Profile" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "displayName" TEXT NOT NULL,
+    "major" TEXT NOT NULL,
+    "year" "SchoolYear" NOT NULL,
+    "experienceLevel" "ExperienceLevel" NOT NULL,
+    "bio" TEXT NOT NULL,
+    "profilePicture" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Session" (
@@ -53,6 +67,12 @@ CREATE TABLE "SessionParticipant" (
 
     CONSTRAINT "SessionParticipant_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
 CREATE INDEX "Session_hostId_idx" ON "Session"("hostId");
