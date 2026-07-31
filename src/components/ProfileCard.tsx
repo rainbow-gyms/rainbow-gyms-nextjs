@@ -1,6 +1,6 @@
 "use client";
 
-import { Image } from "react-bootstrap";
+import { Card, Image, Badge } from "react-bootstrap";
 
 type ProfileCardProps = {
   profile: {
@@ -19,28 +19,53 @@ type ProfileCardProps = {
 
 export default function ProfileCard({ profile }: ProfileCardProps) {
   return (
-    <>
-      <Image
-        src={profile.profilePicture ?? "/pfp-default.png"}
-        width={100}
-        height={100}
-        roundedCircle
-        alt="profile picture"
-      />
+    <Card
+      className="shadow-sm border-0 text-center p-4"
+      style={{
+        maxWidth: "400px",
+        margin: "auto",
+        borderRadius: "20px",
+      }}
+    >
+      <div className="d-flex justify-content-center mb-3">
+        <Image
+          src="/pfp-default.png"
+          width={120}
+          height={120}
+          roundedCircle
+          alt="profile picture"
+          className="border border-3 border-primary"
+          style={{
+            objectFit: "cover",
+          }}
+        />
+      </div>
 
-      <h3>{profile.displayName}</h3>
+      <Card.Title className="mb-1">{profile.displayName}</Card.Title>
 
-      <h6>{profile.user.email}</h6>
+      <Card.Subtitle className="text-muted mb-3">
+        {profile.user.email}
+      </Card.Subtitle>
 
       {profile.user.role === "ADMIN" && (
-        <h6 style={{ color: "red" }}>Admin Account</h6>
+        <Badge bg="danger" className="mb-3">
+          Admin Account
+        </Badge>
       )}
 
-      <h6>{profile.major} Major</h6>
+      <Card.Text className="mb-2">
+        <strong>Major:</strong> {profile.major}
+      </Card.Text>
 
-      <p>{profile.bio}</p>
+      <Card.Text className="text-muted">{profile.bio}</Card.Text>
 
-      <p>Experience: {profile.experienceLevel}</p>
-    </>
+      <div className="mt-2">
+        <Badge bg="primary" className="me-2">
+          {profile.experienceLevel}
+        </Badge>
+
+        <Badge bg="secondary">{profile.year}</Badge>
+      </div>
+    </Card>
   );
 }
