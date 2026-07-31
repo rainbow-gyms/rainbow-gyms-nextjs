@@ -1,36 +1,242 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rainbow Gyms 🏋️🌈
 
-## Getting Started
+Rainbow Gyms is a web application designed to help users find workout partners and organize gym sessions. Users can create workout sessions, browse available sessions, join groups, and connect with other members of the gym community.
 
-First, run the development server:
+The goal of Rainbow Gyms is to make finding workout partners easier by allowing users to discover sessions based on workout type, availability, and other user profiles.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Live Application
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application is deployed through Vercel.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To use the application:
+1. Open the deployed website.
+2. Create an account or sign in.
+3. Browse available gym sessions and interact with other users.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All users share the same database through NeonDB, meaning users can see sessions, profiles, and activity created by other members.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+# Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Authentication
+- User registration and login
+- Secure credential-based authentication
+- User roles:
+  - User
+  - Admin
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## User Profiles
+Users can create and view profiles containing:
+- Display name
+- Profile picture
+- Major
+- School year
+- Experience level
+- Bio
 
-## Deploy on Vercel
+Users can view other members' profiles to learn more about potential workout partners.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Gym Sessions
+Users can:
+- Create workout sessions
+- Browse available sessions
+- Join workout sessions
+- View session details
+- Track session capacity
+- Manage their created sessions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Each session contains:
+- Workout name
+- Workout type
+- Host
+- Location
+- Date/time
+- Description
+- Maximum participants
+- Current participants
+- Session status
+
+## Session Discovery
+Users can filter sessions by:
+- Workout type
+- Date
+
+The browse page updates dynamically without requiring a page refresh.
+
+---
+
+# Tech Stack
+
+## Frontend
+- Next.js
+- React
+- TypeScript
+- React Bootstrap
+
+## Backend
+- Next.js Server Actions
+- Prisma ORM
+- PostgreSQL
+
+## Database Hosting
+- NeonDB PostgreSQL
+
+## Authentication
+- NextAuth / Auth.js
+
+## Deployment
+- Vercel
+
+# Rainbow Gyms 🏋️🌈
+
+Rainbow Gyms is a web application designed to help users find workout partners and organize gym sessions. Users can create workout sessions, browse available sessions, join groups, and connect with other members of the gym community.
+
+The goal of Rainbow Gyms is to make finding workout partners easier by allowing users to discover sessions based on workout type, availability, and other user profiles.
+
+## Live Application
+
+The application is deployed through Vercel.
+
+To use the application:
+1. Open the deployed website.
+2. Create an account or sign in.
+3. Browse available gym sessions and interact with other users.
+
+All users share the same database through NeonDB, meaning users can see sessions, profiles, and activity created by other members.
+
+---
+
+# Features
+
+## Authentication
+- User registration and login
+- Secure credential-based authentication
+- User roles:
+  - User
+  - Admin
+
+## User Profiles
+Users can create and view profiles containing:
+- Display name
+- Profile picture
+- Major
+- School year
+- Experience level
+- Bio
+
+Users can view other members' profiles to learn more about potential workout partners.
+
+## Gym Sessions
+Users can:
+- Create workout sessions
+- Browse available sessions
+- Join workout sessions
+- View session details
+- Track session capacity
+- Manage their created sessions
+
+Each session contains:
+- Workout name
+- Workout type
+- Host
+- Location
+- Date/time
+- Description
+- Maximum participants
+- Current participants
+- Session status
+
+## Session Discovery
+Users can filter sessions by:
+- Workout type
+- Date
+
+The browse page updates dynamically without requiring a page refresh.
+
+---
+
+# Tech Stack
+
+## Frontend
+- Next.js
+- React
+- TypeScript
+- React Bootstrap
+
+## Backend
+- Next.js Server Actions
+- Prisma ORM
+- PostgreSQL
+
+## Database Hosting
+- NeonDB PostgreSQL
+
+## Authentication
+- NextAuth / Auth.js
+
+## Deployment
+- Vercel
+
+---
+
+# Database Structure
+
+Rainbow Gyms uses Prisma ORM with a PostgreSQL database.
+
+## Database Relationships
+
+### User ↔ Profile
+**One-to-One Relationship**
+
+A user can have one profile, and each profile belongs to one user.
+
+Relationship:
+
+
+Example:
+- One account has one profile page.
+- A profile cannot exist without a user.
+
+---
+
+### User ↔ Session
+**One-to-Many Relationship**
+
+A user can create multiple workout sessions, but each session has only one host.
+
+Relationship:
+
+Example:
+- A user can host:
+  - Monday Chest Workout
+  - Friday Leg Workout
+  - Weekend Cardio Session
+
+- Each session belongs to one host.
+
+---
+
+### User ↔ SessionParticipant ↔ Session
+**Many-to-Many Relationship**
+
+Users can join many sessions, and sessions can have many users.
+
+This relationship is implemented using the `SessionParticipant` join table.
+
+Relationship:
+
+
+Example:
+- A user can join multiple workout sessions.
+- A workout session can contain multiple participants.
+
+The join table stores:
+- User ID
+- Session ID
+- Join date
+
+---
+
+# Project Structure
+
