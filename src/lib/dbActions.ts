@@ -5,6 +5,7 @@ import { hash } from "bcrypt";
 import { prisma } from "./prisma";
 import { auth } from "./auth";
 import { redirect } from "next/navigation";
+import { WorkoutType, SchoolYear, ExperienceLevel } from "@prisma/client";
 
 /**
  * Creates a new user in the database.
@@ -52,13 +53,15 @@ export async function changePassword(credentials: {
   });
 }
 
+/**
+ * Creates a user's profile after signup.
+ */
 export async function createProfile(data: {
   displayName: string;
   major: string;
-  year: string;
-  experienceLevel: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  year: SchoolYear;
+  experienceLevel: ExperienceLevel;
   bio: string;
-  preferredGym: string;
   profilePicture?: string;
 }) {
   const session = await auth();
@@ -85,10 +88,95 @@ export async function createProfile(data: {
       year: data.year,
       experienceLevel: data.experienceLevel,
       bio: data.bio,
-      preferredGym: data.preferredGym,
       profilePicture: data.profilePicture,
     },
   });
 
-  redirect("/calendar");
+  redirect("/");
+}
+
+export async function createSession(data: {
+  name: string;
+  workoutType: WorkoutType;
+  location: string;
+  description?: string;
+  startTime: Date;
+  maxPeople: number;
+}) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/auth/signin");
+  }
+
+  await prisma.session.create({
+    data: {
+      hostId: Number(session.user.id),
+      name: data.name,
+      workoutType: data.workoutType,
+      location: data.location,
+      description: data.description,
+      startTime: data.startTime,
+      maxPeople: data.maxPeople,
+      status: "OPEN",
+
+      participants: {
+        create: {
+          userId: Number(session.user.id),
+        },
+      },
+    },
+  });
+
+  redirect("/sessions");
+}
+
+export async function joinSession(sessionId: number) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/auth/signin");
+  }
+
+  const existingParticipant = await prisma.sessionParticipant.findUnique({
+    where: {
+      sessionId_userId: {
+        sessionId,
+        userId: Number(session.user.id),
+      },
+    },
+  });
+
+  if (existingParticipant) {
+    throw new Error("Already joined this session");
+  }
+
+  await prisma.sessionParticipant.create({
+    data: {
+      sessionId,
+      userId: Number(session.user.id),
+    },
+  });
+}
+
+export async function getAvailableSessions() {
+  return await prisma.session.findMany({
+    where: {
+      status: "OPEN",
+    },
+
+    include: {
+      host: {
+        include: {
+          profile: true,
+        },
+      },
+
+      participants: true,
+    },
+
+    orderBy: {
+      startTime: "asc",
+    },
+  });
 }

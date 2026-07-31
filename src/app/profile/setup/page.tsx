@@ -6,10 +6,9 @@ import { useState } from "react";
 type ProfileForm = {
   displayName: string;
   major: string;
-  year: string;
+  year: "FRESHMAN" | "SOPHOMORE" | "JUNIOR" | "SENIOR" | "GRADUATE";
   experienceLevel: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   bio: string;
-  preferredGym: string;
   profilePicture?: string;
 };
 
@@ -17,15 +16,15 @@ export default function ProfileSetupPage() {
   const [formData, setFormData] = useState<ProfileForm>({
     displayName: "",
     major: "",
-    year: "",
+    year: "FRESHMAN",
     experienceLevel: "BEGINNER",
     bio: "",
-    preferredGym: "",
     profilePicture: "",
   });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     await createProfile(formData);
   };
 
@@ -56,16 +55,21 @@ export default function ProfileSetupPage() {
           }
         />
 
-        <input
-          placeholder="Year"
+        <select
           value={formData.year}
           onChange={(e) =>
             setFormData({
               ...formData,
-              year: e.target.value,
+              year: e.target.value as ProfileForm["year"],
             })
           }
-        />
+        >
+          <option value="FRESHMAN">Freshman</option>
+          <option value="SOPHOMORE">Sophomore</option>
+          <option value="JUNIOR">Junior</option>
+          <option value="SENIOR">Senior</option>
+          <option value="GRADUATE">Graduate</option>
+        </select>
 
         <select
           value={formData.experienceLevel}
@@ -91,17 +95,6 @@ export default function ProfileSetupPage() {
             setFormData({
               ...formData,
               bio: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Preferred Gym"
-          value={formData.preferredGym}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              preferredGym: e.target.value,
             })
           }
         />
