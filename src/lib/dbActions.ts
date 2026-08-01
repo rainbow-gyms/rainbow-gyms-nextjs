@@ -10,6 +10,7 @@ import {
   SchoolYear,
   ExperienceLevel,
   SessionStatus,
+  GymLocation,
   Prisma,
 } from "@prisma/client";
 
@@ -104,7 +105,8 @@ export async function createProfile(data: {
 export async function createSession(data: {
   name: string;
   workoutType: WorkoutType;
-  location: string;
+  experience: ExperienceLevel;
+  location: GymLocation;
   description?: string;
   startTime: Date;
   maxPeople: number;
@@ -122,6 +124,7 @@ export async function createSession(data: {
       hostId: userId,
       name: data.name,
       workoutType: data.workoutType,
+      experience: data.experience,
       location: data.location,
       description: data.description,
       startTime: data.startTime,

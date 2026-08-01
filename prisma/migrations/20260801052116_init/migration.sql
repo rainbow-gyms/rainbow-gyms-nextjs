@@ -13,6 +13,9 @@ CREATE TYPE "SessionStatus" AS ENUM ('OPEN', 'FULL', 'CANCELLED', 'COMPLETED');
 -- CreateEnum
 CREATE TYPE "SchoolYear" AS ENUM ('FRESHMAN', 'SOPHOMORE', 'JUNIOR', 'SENIOR', 'GRADUATE');
 
+-- CreateEnum
+CREATE TYPE "GymLocation" AS ENUM ('WARRIOR', 'HILO', 'WEST');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -47,7 +50,7 @@ CREATE TABLE "Session" (
     "hostId" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "workoutType" "WorkoutType" NOT NULL,
-    "location" TEXT NOT NULL,
+    "location" "GymLocation" NOT NULL,
     "description" TEXT,
     "startTime" TIMESTAMP(3) NOT NULL,
     "maxPeople" INTEGER NOT NULL,

@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { createSession } from "@/lib/dbActions";
-import { WorkoutType } from "@prisma/client";
+import { WorkoutType, GymLocation, ExperienceLevel } from "@prisma/client";
 
 type SessionForm = {
   name: string;
   workoutType: WorkoutType;
-  location: string;
+  experience: ExperienceLevel;
+  location: GymLocation;
   description: string;
   startTime: string;
   maxPeople: number;
@@ -20,7 +21,8 @@ export default function CreateForm() {
   const [form, setForm] = useState<SessionForm>({
     name: "",
     workoutType: WorkoutType.CHEST,
-    location: "",
+    experience: ExperienceLevel.BEGINNER,
+    location: GymLocation.WARRIOR,
     description: "",
     startTime: "",
     maxPeople: 2,
@@ -38,9 +40,13 @@ export default function CreateForm() {
       [name]:
         name === "workoutType"
           ? (value as WorkoutType)
-          : name === "maxPeople"
-            ? Number(value)
-            : value,
+          : name === "experience"
+            ? (value as ExperienceLevel)
+            : name === "location"
+              ? (value as GymLocation)
+              : name === "maxPeople"
+                ? Number(value)
+                : value,
     }));
   }
 
@@ -95,14 +101,31 @@ export default function CreateForm() {
       </Form.Group>
 
       <Form.Group className="mb-3">
+        <Form.Label>Experience Level</Form.Label>
+
+        <Form.Select
+          name="experience"
+          value={form.experience}
+          onChange={updateField}
+        >
+          <option value="BEGINNER">Beginner</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="ADVANCED">Advanced</option>
+        </Form.Select>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
         <Form.Label>Location</Form.Label>
-        <Form.Control
+
+        <Form.Select
           name="location"
           value={form.location}
           onChange={updateField}
-          placeholder="Gym location"
-          required
-        />
+        >
+          <option value={GymLocation.WARRIOR}>War Rec Center</option>
+          <option value={GymLocation.HILO}>Student Life Center</option>
+          <option value={GymLocation.WEST}>Nāulu Center</option>
+        </Form.Select>
       </Form.Group>
 
       <Form.Group className="mb-3">

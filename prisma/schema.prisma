@@ -64,7 +64,7 @@ model Session {
   name        String
   workoutType WorkoutType
 
-  location    String
+  location    GymLocation
 
   description String?
 
@@ -123,4 +123,10 @@ enum SchoolYear {
   JUNIOR
   SENIOR
   GRADUATE
+}
+
+enum GymLocation {
+  WARRIOR
+  HILO
+  WEST
 }
