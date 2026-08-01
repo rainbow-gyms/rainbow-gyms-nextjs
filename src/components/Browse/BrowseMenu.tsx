@@ -96,24 +96,6 @@ export default function BrowseMenu({ sessions }: BrowseSessionsProps) {
                 </Form.Group>
               </Col>
 
-              <Col md={3}>
-                <Form.Group controlId="filterExperience">
-                  <Form.Label className="fw-bold">Experience Level</Form.Label>
-
-                  <Form.Select
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                  >
-                    <option value="">All Experience Levels</option>
-                    <option value={ExperienceLevel.BEGINNER}>Beginner</option>
-                    <option value={ExperienceLevel.INTERMEDIATE}>
-                      Intermediate
-                    </option>
-                    <option value={ExperienceLevel.ADVANCED}>Advanced</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-
               <Col md={2}>
                 <Form.Group controlId="filterDate">
                   <Form.Label className="fw-bold">Session Date</Form.Label>
