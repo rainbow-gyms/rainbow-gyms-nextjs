@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { createSession } from "@/lib/dbActions";
 import { WorkoutType } from "@prisma/client";
 
@@ -65,8 +65,10 @@ export default function CreateForm() {
   }
 
   return (
+    <Container className="justify-content-center my-4">
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3">
+        <h1 className="mb-3 border-bottom border-5">Create Session</h1>
         <Form.Label>Session Name</Form.Label>
         <Form.Control
           name="name"
@@ -145,5 +147,6 @@ export default function CreateForm() {
         {loading ? "Creating..." : "Create Session"}
       </Button>
     </Form>
+    </Container>
   );
 }

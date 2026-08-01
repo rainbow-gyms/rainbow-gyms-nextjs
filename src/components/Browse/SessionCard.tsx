@@ -10,7 +10,7 @@ type SessionCardProps = {
 export default function SessionCard({ session }: SessionCardProps) {
   return (
     <Card
-      className="shadow-sm h-100 border-0"
+      className="shadow h-100 border"
       style={{
         borderRadius: "15px",
       }}

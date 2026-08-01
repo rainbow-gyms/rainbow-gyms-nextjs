@@ -55,7 +55,7 @@ const SignIn = () => {
     >
       <Container>
         <Row className="justify-content-center">
-          <Col xs={11} sm={8} md={5} lg={4}>
+          <Col xs={11} sm={8} md={5} lg={4} className="m-5">
             <Card className="shadow border-0">
               <Card.Body className="p-4">
                 <h1 className="text-center mb-4">Welcome Back</h1>
@@ -92,7 +92,7 @@ const SignIn = () => {
               </Card.Body>
 
               <Card.Footer className="text-center bg-white border-0">
-                Don&apos;t have an account? <a href="/auth/signup">Sign up</a>
+                Don&apos;t have an account? <br className="d-md-none" /> <a href="/auth/signup">Sign up</a>
               </Card.Footer>
             </Card>
           </Col>

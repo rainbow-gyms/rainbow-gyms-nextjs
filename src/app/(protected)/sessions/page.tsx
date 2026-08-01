@@ -1,8 +1,7 @@
-import { Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col }from "react-bootstrap";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import "./sessions.css";
 
 export default async function mySessions() {
   const session = await auth();
@@ -34,8 +33,8 @@ export default async function mySessions() {
   });
 
   return (
-    <div className="container mt-4">
-      <h1>My Sessions</h1>
+    <div className="container my-4">
+      <h1 className="mb-3 border-bottom border-5">My Sessions</h1>
 
       {sessions.length === 0 ? (
         <p>You haven&apos;t created any sessions yet.</p>
@@ -43,7 +42,7 @@ export default async function mySessions() {
         <Row>
           {sessions.map((workout) => (
             <Col key={workout.id} md={6} lg={4}>
-              <div className="card mb-3">
+              <div className="card mb-3 shadow">
                 <div className="card-body">
                   <h5 className="card-title">{workout.name}</h5>
 

@@ -60,12 +60,13 @@ const ChangePassword = () => {
     <main>
       <Container>
         <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Change Password</h1>
-            <Card>
-              <Card.Body>
+          <Col xs={11} sm={8} md={5} lg={4} className="m-5">
+            <Card className="shadow border-0">
+              <Card.Body className="p-4">
+                <h1 className="text-center mb-4">Change Password</h1>
+
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Form.Group className="form-group">
+                  <Form.Group className="form-group mb-3">
                     <Form.Label>Old Password</Form.Label>
                     <input
                       type="password"

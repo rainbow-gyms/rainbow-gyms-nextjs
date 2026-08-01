@@ -44,13 +44,19 @@ const SignUp = () => {
   };
 
   return (
-    <main>
+    <main
+      className="d-flex align-items-center"
+      style={{
+        minHeight: "100vh",
+        background: "#f8f9fa",
+    }}>
       <Container>
         <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Sign Up</h1>
-            <Card>
+          <Col xs={11} sm={8} md={5} lg={4} className="m-5">
+            <Card className="shadow border-0">
               <Card.Body>
+                <h1 className="text-center mb-4">Sign Up</h1>
+
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Form.Group className="form-group">
                     <Form.Label>Email</Form.Label>
@@ -106,9 +112,8 @@ const SignUp = () => {
                   </Form.Group>
                 </Form>
               </Card.Body>
-              <Card.Footer>
-                Already have an account?
-                <a href="/auth/signin">Sign in</a>
+              <Card.Footer className="text-center bg-white border-0">
+                Already have an account? <br className="d-md-none" /> <a href="/auth/signin">Sign in</a>
               </Card.Footer>
             </Card>
           </Col>
