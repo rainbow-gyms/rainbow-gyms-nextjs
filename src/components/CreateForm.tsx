@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { createSession } from "@/lib/dbActions";
-import { WorkoutType, GymLocation, ExperienceLevel } from "@prisma/client";
+import { WorkoutType, GymLocation } from "@prisma/client";
 
 type SessionForm = {
   name: string;
   workoutType: WorkoutType;
-  experience: ExperienceLevel;
   location: GymLocation;
   description: string;
   startTime: string;
@@ -21,7 +20,6 @@ export default function CreateForm() {
   const [form, setForm] = useState<SessionForm>({
     name: "",
     workoutType: WorkoutType.CHEST,
-    experience: ExperienceLevel.BEGINNER,
     location: GymLocation.WARRIOR,
     description: "",
     startTime: "",
@@ -40,13 +38,11 @@ export default function CreateForm() {
       [name]:
         name === "workoutType"
           ? (value as WorkoutType)
-          : name === "experience"
-            ? (value as ExperienceLevel)
-            : name === "location"
-              ? (value as GymLocation)
-              : name === "maxPeople"
-                ? Number(value)
-                : value,
+          : name === "location"
+            ? (value as GymLocation)
+            : name === "maxPeople"
+              ? Number(value)
+              : value,
     }));
   }
 
@@ -97,20 +93,6 @@ export default function CreateForm() {
           <option value={WorkoutType.BICEPS}>Biceps</option>
           <option value={WorkoutType.TRICEPS}>Triceps</option>
           <option value={WorkoutType.CARDIO}>Cardio</option>
-        </Form.Select>
-      </Form.Group>
-
-      <Form.Group className="mb-3">
-        <Form.Label>Experience Level</Form.Label>
-
-        <Form.Select
-          name="experience"
-          value={form.experience}
-          onChange={updateField}
-        >
-          <option value="BEGINNER">Beginner</option>
-          <option value="INTERMEDIATE">Intermediate</option>
-          <option value="ADVANCED">Advanced</option>
         </Form.Select>
       </Form.Group>
 
