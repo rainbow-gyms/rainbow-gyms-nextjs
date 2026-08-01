@@ -60,7 +60,7 @@ export default function SessionCard({ session }: SessionCardProps) {
         </div>
 
         <div className="mt-auto d-flex gap-2">
-          <Link href={`/sessions/${session.id}`}>
+          <Link href={`/sessionProfile/${session.id}`}>
             <Button variant="outline-primary">More Info</Button>
           </Link>
 
