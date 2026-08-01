@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { Container, Nav, Navbar, NavDropdown, Image } from "react-bootstrap";
 import {
   PersonFill,
@@ -14,6 +15,8 @@ import "./navbar.css";
 import Link from "next/link";
 
 const NavBar: React.FC = () => {
+  const pathname = usePathname();
+
   const { data: session } = useSession();
 
   const currentUser = session?.user?.email;
@@ -32,15 +35,19 @@ const NavBar: React.FC = () => {
           <Nav className="ms-auto align-items-center">
             {session && (
               <>
-                <Link href="/sessions" className="nav-link text-light px-3">
+                <Link href={session ? "/profile/check" : "/"} className={`nav-link text-light px-3 ${pathname === "/" ? "border-bottom border-3" : ""}`}>
+                  Browse
+                </Link>
+
+                <Link href="/sessions" className={`nav-link text-light px-3 ${pathname === "/sessions" ? "border-bottom border-3" : ""}`}>
                   My Sessions
                 </Link>
 
-                <Link href="/create" className="nav-link text-light px-3">
+                <Link href="/create" className={`nav-link text-light px-3 ${pathname === "/create" ? "border-bottom border-3" : ""}`}>
                   Create
                 </Link>
 
-                <Link href="/calendar" className="nav-link text-light px-3">
+                <Link href="/calendar" className={`nav-link text-light px-3 ${pathname === "/calendar" ? "border-bottom border-3" : ""}`}>
                   Calendar
                 </Link>
               </>

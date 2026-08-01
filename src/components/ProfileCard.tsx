@@ -20,7 +20,7 @@ type ProfileCardProps = {
 export default function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <Card
-      className="shadow-sm border-0 text-center p-4"
+      className="shadow border-0 text-center p-4 mt-5"
       style={{
         maxWidth: "400px",
         margin: "auto",
