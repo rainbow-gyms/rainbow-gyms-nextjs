@@ -3,8 +3,7 @@ import { Container, Col, Row, Image } from "react-bootstrap";
 const AboutUs = () => (
   <main>
     <Container>
-      <h1 className="text-center py-3" >About Us</h1>
-      <hr />
+      <h1 className="text-center py-3 mb-4 border-5 border-bottom" >About Us</h1>
       <Row className="justify-content-center py-1">
         {/*first row image*/}
         <Col md={5} lg={4}>
