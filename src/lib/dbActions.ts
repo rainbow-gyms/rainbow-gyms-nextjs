@@ -13,6 +13,7 @@ import {
   GymLocation,
   Prisma,
 } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 /**
  * Creates a new user in the database.
@@ -138,6 +139,16 @@ export async function createSession(data: {
   });
 
   redirect("/sessions");
+}
+
+export async function deleteSession(id: number) {
+  await prisma.session.delete({
+    where: { id },
+  });
+
+  revalidatePath("/sessions");
+  // After deleting, redirect to the sessions page
+  redirect('/sessions');
 }
 
 export async function joinSession(sessionId: number) {

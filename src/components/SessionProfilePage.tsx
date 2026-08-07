@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Row, Col, Card, Image, Badge, Button } from 'react-bootstrap';
+import { useSession } from "next-auth/react";
 import Link from 'next/link';
 import JoinButton from './Browse/JoinButton';
 
@@ -13,6 +14,7 @@ type SessionProfileProps = {
     startTime: Date;
     description: string | null;
     maxPeople: number;
+    hostId: number;
     host: {
       profile: {
         displayName: string | null;
@@ -24,6 +26,13 @@ type SessionProfileProps = {
 };
 
 export default function SessionProfileDetails({ session }: SessionProfileProps) {
+  const { data: currentsession } = useSession();
+  const userId = Number(currentsession?.user.id);
+  {/*test*/}
+  console.log("hostId: " + session.hostId);
+  console.log("userId: " + currentsession?.user.id);
+  console.log("sessionId: " + session.id);
+  
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
@@ -82,9 +91,21 @@ export default function SessionProfileDetails({ session }: SessionProfileProps) 
                     Back to Browse
                   </Button>
                 </Link>
-                <div className="flex-grow-1">
-                  <JoinButton sessionId={session.id} />
-                </div>
+
+                {/*adds back to my sessions button if userid macthes the session host's id*/}
+                {/*hides join button if userid macthes the session host's id */}
+                {userId === session.hostId ? (
+                  <Link href="/sessions" className="text-decoration-none flex-grow-1">
+                    <Button variant="outline-secondary" className="w-100">
+                      Back to My Sessions
+                    </Button>
+                  </Link>
+                  ) : (
+                  <div className="flex-grow-1"> 
+                    <JoinButton sessionId={session.id} />
+                  </div>
+                )}  
+                
               </div>
             </Card.Body>
           </Card>
