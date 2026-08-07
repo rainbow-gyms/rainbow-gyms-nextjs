@@ -67,7 +67,7 @@ export default function BrowseMenu({ sessions }: BrowseSessionsProps) {
             <h1 className="display-4 fw-bold">Browse Sessions</h1>
             <p className="lead mx-auto">
               Find workout partners, join student-led fitness groups, and filter
-              available gym sessions across UH Mānoa to fit your schedule.
+              available gym sessions across UH Campuses to fit your schedule.
             </p>
           </Col>
         </Row>

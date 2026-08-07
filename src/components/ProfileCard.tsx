@@ -29,7 +29,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
     >
       <div className="d-flex justify-content-center mb-3">
         <Image
-          src="/pfp-default.png"
+          src={profile.profilePicture || "/pfp-default.png"}
           width={120}
           height={120}
           roundedCircle

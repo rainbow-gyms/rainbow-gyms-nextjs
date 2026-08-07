@@ -1,10 +1,16 @@
-import { notFound } from 'next/navigation';
-import { loggedInProtectedPage } from '@/lib/page-protection';
-import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
-import SessionProfileDetails from '@/components/SessionProfilePage';
+// src/app/sessionProfile/[id]/page.tsx
 
-export default async function SessionProfilePage({ params }: { params: { id: string | string[] } }) {
+import { notFound } from "next/navigation";
+import { loggedInProtectedPage } from "@/lib/page-protection";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import SessionProfileDetails from "@/components/SessionProfilePage";
+
+export default async function SessionProfilePage({
+  params,
+}: {
+  params: { id: string | string[] };
+}) {
   const { id } = await params;
   const realId = Number(id);
 
@@ -23,7 +29,15 @@ export default async function SessionProfilePage({ params }: { params: { id: str
           profile: true,
         },
       },
-      participants: true,
+      participants: {
+        include: {
+          user: {
+            include: {
+              profile: true,
+            },
+          },
+        },
+      },
     },
   });
 

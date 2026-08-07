@@ -20,10 +20,10 @@ const Home = () => (
           </h2>
 
           <p className="lead fs-5 fs-md-4 mb-4">
-            A fitness community built for UH Mānoa Computer Science and Computer
-            Engineering students. Find workout partners, create gym sessions,
-            and stay consistent while balancing classes, assignments, and
-            personal growth.
+            A fitness community built for University of Hawaii Computer Science
+            and Computer Engineering students. Find workout partners, create gym
+            sessions, and stay consistent while balancing classes, assignments,
+            and personal growth.
           </p>
         </Col>
       </Row>
