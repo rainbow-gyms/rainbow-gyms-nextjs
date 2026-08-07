@@ -162,7 +162,10 @@ export async function joinSession(sessionId: number) {
     throw new Error("Session not found");
   }
 
-  if (sessionInfo.status === SessionStatus.FULL) {
+  if (
+    sessionInfo.status === SessionStatus.FULL ||
+    sessionInfo.participants.length >= sessionInfo.maxPeople
+  ) {
     throw new Error("Session is full");
   }
 
@@ -210,11 +213,10 @@ export type AvailableSession = Prisma.SessionGetPayload<{
     participants: true;
   };
 }>;
-
 export async function getAvailableSessions() {
-  return await prisma.session.findMany({
+  const sessions = await prisma.session.findMany({
     where: {
-      status: "OPEN",
+      status: SessionStatus.OPEN,
     },
 
     include: {
@@ -223,7 +225,6 @@ export async function getAvailableSessions() {
           profile: true,
         },
       },
-
       participants: true,
     },
 
@@ -231,4 +232,8 @@ export async function getAvailableSessions() {
       startTime: "asc",
     },
   });
+
+  return sessions.filter(
+    (session) => session.participants.length < session.maxPeople,
+  );
 }

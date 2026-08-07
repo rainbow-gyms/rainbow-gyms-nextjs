@@ -1,3 +1,5 @@
+// src/components/Browse/SessionCard.tsx
+
 import { Card, Image, Button, Badge } from "react-bootstrap";
 import Link from "next/link";
 import type { AvailableSession } from "@/lib/dbActions";

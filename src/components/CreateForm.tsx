@@ -41,7 +41,7 @@ export default function CreateForm() {
           : name === "location"
             ? (value as GymLocation)
             : name === "maxPeople"
-              ? Number(value)
+              ? Math.max(2, Number(value))
               : value,
     }));
   }
@@ -51,6 +51,11 @@ export default function CreateForm() {
 
     if (!form.name || !form.location || !form.startTime) {
       alert("Please fill out all required fields.");
+      return;
+    }
+
+    if (form.maxPeople < 2) {
+      alert("Group size must be at least 2 people.");
       return;
     }
 
@@ -69,97 +74,101 @@ export default function CreateForm() {
   return (
     <Container className="justify-content-center my-4">
       <Row className="justify-content-center">
-          <Col xs={11} sm={8} md={5} lg={4} className="m-5">
-            <Card className="shadow border-0">
-              <Card.Body className="p-4">
-                <h1 className="text-center border-bottom border-5 mb-4">Create Session</h1>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Session Name</Form.Label>
-                    <Form.Control
-                      name="name"
-                      value={form.name}
-                      onChange={updateField}
-                      placeholder="Example: Morning Chest Workout"
-                      required
-                    />
-                  </Form.Group>
+        <Col xs={11} sm={8} md={5} lg={4} className="m-5">
+          <Card className="shadow border-0">
+            <Card.Body className="p-4">
+              <h1 className="text-center border-bottom border-5 mb-4">
+                Create Session
+              </h1>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Session Name</Form.Label>
+                  <Form.Control
+                    name="name"
+                    value={form.name}
+                    onChange={updateField}
+                    placeholder="Example: Morning Chest Workout"
+                    required
+                  />
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Workout Type</Form.Label>
-                    <Form.Select
-                      name="workoutType"
-                      value={form.workoutType}
-                      onChange={updateField}
-                    >
-                      <option value={WorkoutType.CHEST}>Chest</option>
-                      <option value={WorkoutType.BACK}>Back</option>
-                      <option value={WorkoutType.LEGS}>Legs</option>
-                      <option value={WorkoutType.SHOULDERS}>Shoulders</option>
-                      <option value={WorkoutType.BICEPS}>Biceps</option>
-                      <option value={WorkoutType.TRICEPS}>Triceps</option>
-                      <option value={WorkoutType.CARDIO}>Cardio</option>
-                    </Form.Select>
-                  </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Workout Type</Form.Label>
+                  <Form.Select
+                    name="workoutType"
+                    value={form.workoutType}
+                    onChange={updateField}
+                  >
+                    <option value={WorkoutType.CHEST}>Chest</option>
+                    <option value={WorkoutType.BACK}>Back</option>
+                    <option value={WorkoutType.LEGS}>Legs</option>
+                    <option value={WorkoutType.SHOULDERS}>Shoulders</option>
+                    <option value={WorkoutType.BICEPS}>Biceps</option>
+                    <option value={WorkoutType.TRICEPS}>Triceps</option>
+                    <option value={WorkoutType.CARDIO}>Cardio</option>
+                  </Form.Select>
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Location</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label>Location</Form.Label>
 
-                    <Form.Select
-                      name="location"
-                      value={form.location}
-                      onChange={updateField}
-                    >
-                      <option value={GymLocation.WARRIOR}>War Rec Center</option>
-                      <option value={GymLocation.HILO}>Student Life Center</option>
-                      <option value={GymLocation.WEST}>Nāulu Center</option>
-                    </Form.Select>
-                  </Form.Group>
+                  <Form.Select
+                    name="location"
+                    value={form.location}
+                    onChange={updateField}
+                  >
+                    <option value={GymLocation.WARRIOR}>War Rec Center</option>
+                    <option value={GymLocation.HILO}>
+                      Student Life Center
+                    </option>
+                    <option value={GymLocation.WEST}>Nāulu Center</option>
+                  </Form.Select>
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Additional Info</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      name="description"
-                      value={form.description}
-                      onChange={updateField}
-                      placeholder="Anything others should know?"
-                    />
-                  </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Additional Info</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    name="description"
+                    value={form.description}
+                    onChange={updateField}
+                    placeholder="Anything others should know?"
+                  />
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Start Time</Form.Label>
-                    <Form.Control
-                      type="datetime-local"
-                      name="startTime"
-                      value={form.startTime}
-                      onChange={updateField}
-                      required
-                    />
-                  </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Start Time</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    name="startTime"
+                    value={form.startTime}
+                    onChange={updateField}
+                    required
+                  />
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Group Size</Form.Label>
-                    <Form.Select
-                      name="maxPeople"
-                      value={form.maxPeople}
-                      onChange={updateField}
-                    >
-                      <option value={2}>2 people</option>
-                      <option value={3}>3 people</option>
-                      <option value={5}>5 people</option>
-                    </Form.Select>
-                  </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Maximum Participants</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="maxPeople"
+                    value={form.maxPeople}
+                    onChange={updateField}
+                    min={2}
+                    max={40}
+                    required
+                  />
+                </Form.Group>
 
-                  <Button type="submit" disabled={loading}>
-                    {loading ? "Creating..." : "Create Session"}
-                  </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Creating..." : "Create Session"}
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 }

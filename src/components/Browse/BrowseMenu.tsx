@@ -1,8 +1,10 @@
+// /src/components/BrowseMenu.tsx
+
 "use client";
 
 import { useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { WorkoutType, GymLocation, ExperienceLevel } from "@prisma/client";
+import { WorkoutType, GymLocation } from "@prisma/client";
 import SessionCard from "./SessionCard";
 import styles from "./Browse.module.css";
 import { AvailableSession } from "@/lib/dbActions";
@@ -18,6 +20,7 @@ export default function BrowseMenu({ sessions }: BrowseSessionsProps) {
   const [experience, setExperience] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [date, setDate] = useState<string>("");
+  const [minSpots, setMinSpots] = useState("");
 
   const workoutTypes = Object.values(WorkoutType);
 
@@ -26,13 +29,26 @@ export default function BrowseMenu({ sessions }: BrowseSessionsProps) {
     const matchesType = !workoutType || session.workoutType === workoutType;
     const matchesLocation = !location || session.location === location;
 
-    // Extract the YYYY-MM-DD from the session's DateTime to match the HTML date input
     const matchesDate =
       !date || new Date(session.startTime).toISOString().startsWith(date);
+
     const matchesExperience =
       !experience || session.host.profile?.experienceLevel === experience;
 
-    return matchesType && matchesLocation && matchesDate && matchesExperience;
+    const hasSpace = session.participants.length < session.maxPeople;
+
+    const matchesParticipants =
+      !minSpots ||
+      session.maxPeople - session.participants.length >= Number(minSpots);
+
+    return (
+      matchesType &&
+      matchesLocation &&
+      matchesDate &&
+      matchesExperience &&
+      hasSpace &&
+      matchesParticipants
+    );
   });
 
   // Resets all filters to their default state
@@ -92,6 +108,25 @@ export default function BrowseMenu({ sessions }: BrowseSessionsProps) {
                       Student Life Center
                     </option>
                     <option value={GymLocation.WEST}>Nāulu Center</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+
+              <Col md={3}>
+                <Form.Group controlId="filterParticipants">
+                  <Form.Label className="fw-bold">
+                    Minimum Open Spots
+                  </Form.Label>
+
+                  <Form.Select
+                    value={minSpots}
+                    onChange={(e) => setMinSpots(e.target.value)}
+                  >
+                    <option value="">Any</option>
+                    <option value="1">1+ spot</option>
+                    <option value="2">2+ spots</option>
+                    <option value="3">3+ spots</option>
+                    <option value="5">5+ spots</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
