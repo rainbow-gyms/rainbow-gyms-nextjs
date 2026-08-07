@@ -9,24 +9,37 @@ import { useRouter } from "next/navigation";
 export default function JoinButton({ sessionId }: { sessionId: number }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
 
   async function handleJoin() {
     setLoading(true);
+    setMessage("");
+    setError(false);
 
     try {
       await joinSession(sessionId);
+      setMessage("Joined session!");
       router.refresh();
-      alert("Joined session!");
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Something went wrong");
+      setError(true);
+      setMessage(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Button onClick={handleJoin} disabled={loading}>
-      {loading ? "Joining..." : "Join Session"}
-    </Button>
+    <div>
+      <Button onClick={handleJoin} disabled={loading}>
+        {loading ? "Joining..." : "Join Session"}
+      </Button>
+
+      {message && (
+        <p className={error ? "text-danger" : "text-success"}>{message}</p>
+      )}
+    </div>
   );
 }

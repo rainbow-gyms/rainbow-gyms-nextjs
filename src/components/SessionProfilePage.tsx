@@ -1,8 +1,18 @@
-'use client';
+// /src/components/SessionProfilePage.tsx
 
-import { Container, Row, Col, Card, Image, Badge, Button } from 'react-bootstrap';
-import Link from 'next/link';
-import JoinButton from './Browse/JoinButton';
+"use client";
+
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Image,
+  Badge,
+  Button,
+} from "react-bootstrap";
+import Link from "next/link";
+import JoinButton from "./Browse/JoinButton";
 
 type SessionProfileProps = {
   session: {
@@ -14,41 +24,62 @@ type SessionProfileProps = {
     description: string | null;
     maxPeople: number;
     host: {
+      id: number;
       profile: {
         displayName: string | null;
         profilePicture: string | null;
       } | null;
     };
-    participants: { id: number }[];
+    participants: {
+      id: number;
+      user: {
+        id: number;
+        profile: {
+          displayName: string;
+          profilePicture: string | null;
+        } | null;
+      };
+    }[];
   };
 };
 
-export default function SessionProfileDetails({ session }: SessionProfileProps) {
+export default function SessionProfileDetails({
+  session,
+}: SessionProfileProps) {
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col md={8} lg={6}>
-          <Card className="shadow-sm border-0" style={{ borderRadius: '15px' }}>
+          <Card className="shadow-sm border-0" style={{ borderRadius: "15px" }}>
             <Card.Header className="bg-white border-0 pt-4 pb-0">
-              <div className="d-flex align-items-center mb-3">
-                <Image
-                  src={session.host.profile?.profilePicture || '/pfp-default.png'}
-                  width={65}
-                  height={65}
-                  roundedCircle
-                  alt="Host profile picture"
-                  style={{ objectFit: 'cover' }}
-                  className="me-3 border"
-                />
-                <div>
-                  <Card.Title className="mb-1 fs-3 fw-bold">{session.name}</Card.Title>
-                  <Card.Subtitle className="text-muted">
-                    Hosted by {session.host.profile?.displayName || 'Unknown'}
-                  </Card.Subtitle>
-                </div>
+              <Card.Title className="mb-2 fs-3 fw-bold">
+                {session.name}
+              </Card.Title>
+
+              <div className="d-flex align-items-center">
+                <Link
+                  href={`/profile/${session.host.id}`}
+                  className="text-decoration-none"
+                >
+                  <Image
+                    src={
+                      session.host.profile?.profilePicture || "/pfp-default.png"
+                    }
+                    width={65}
+                    height={65}
+                    roundedCircle
+                    className="me-3 border"
+                    style={{ objectFit: "cover" }}
+                    alt="Host profile picture"
+                  />
+                </Link>
+
+                <Card.Subtitle className="text-muted">
+                  Hosted by {session.host.profile?.displayName || "Unknown"}
+                </Card.Subtitle>
               </div>
             </Card.Header>
-            
+
             <Card.Body>
               <Row className="mb-4 g-3">
                 <Col xs={6}>
@@ -65,15 +96,61 @@ export default function SessionProfileDetails({ session }: SessionProfileProps) 
                 </Col>
                 <Col xs={6}>
                   <strong>Capacity:</strong> <br />
-                  {session.participants.length} / {session.maxPeople} Participants
+                  {session.participants.length} / {session.maxPeople}{" "}
+                  Participants
                 </Col>
               </Row>
 
               <div className="mb-4">
                 <h5 className="fw-bold">Description</h5>
                 <p>
-                  {session.description || "No description provided for this session."}
+                  {session.description ||
+                    "No description provided for this session."}
                 </p>
+              </div>
+
+              <h5 className="fw-bold mt-4">Participants</h5>
+
+              <div
+                className="d-flex gap-3 mt-3 overflow-auto"
+                style={{
+                  whiteSpace: "nowrap",
+                  paddingBottom: "8px",
+                }}
+              >
+                {session.participants.map((participant) => (
+                  <Link
+                    key={participant.id}
+                    href={`/profile/${participant.user.id}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    <div
+                      className="text-center"
+                      style={{
+                        minWidth: "75px",
+                      }}
+                    >
+                      <Image
+                        src={
+                          participant.user.profile?.profilePicture ||
+                          "/pfp-default.png"
+                        }
+                        roundedCircle
+                        width={60}
+                        height={60}
+                        alt={
+                          participant.user.profile?.displayName || "Participant"
+                        }
+                        className="border"
+                        style={{ objectFit: "cover" }}
+                      />
+
+                      <div className="mt-2 small fw-semibold text-truncate">
+                        {participant.user.profile?.displayName || "Unknown"}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
 
               <div className="d-flex gap-3 mt-4">

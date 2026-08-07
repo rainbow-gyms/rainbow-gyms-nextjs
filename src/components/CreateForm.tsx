@@ -1,9 +1,12 @@
+// src/components/CreateForm.tsx
+
 "use client";
 
 import { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { createSession } from "@/lib/dbActions";
 import { WorkoutType, GymLocation } from "@prisma/client";
+import SuccessToast from "./SuccessToast";
 
 type SessionForm = {
   name: string;
@@ -16,6 +19,7 @@ type SessionForm = {
 
 export default function CreateForm() {
   const [loading, setLoading] = useState(false);
+  const [created, setCreated] = useState(false);
 
   const [form, setForm] = useState<SessionForm>({
     name: "",
@@ -54,8 +58,8 @@ export default function CreateForm() {
       return;
     }
 
-    if (form.maxPeople < 2) {
-      alert("Group size must be at least 2 people.");
+    if (form.maxPeople < 2 || form.maxPeople > 40) {
+      alert("Maximum participants must be between 2 and 40.");
       return;
     }
 
@@ -66,109 +70,155 @@ export default function CreateForm() {
         ...form,
         startTime: new Date(form.startTime),
       });
+
+      // Show success toast
+      setCreated(true);
+
+      // Hide after 3 seconds
+      setTimeout(() => {
+        setCreated(false);
+      }, 3000);
+
+      // Optional: reset form
+      setForm({
+        name: "",
+        workoutType: WorkoutType.CHEST,
+        location: GymLocation.WARRIOR,
+        description: "",
+        startTime: "",
+        maxPeople: 2,
+      });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Container className="justify-content-center my-4">
-      <Row className="justify-content-center">
-        <Col xs={11} sm={8} md={5} lg={4} className="m-5">
-          <Card className="shadow border-0">
-            <Card.Body className="p-4">
-              <h1 className="text-center border-bottom border-5 mb-4">
-                Create Session
-              </h1>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Session Name</Form.Label>
-                  <Form.Control
-                    name="name"
-                    value={form.name}
-                    onChange={updateField}
-                    placeholder="Example: Morning Chest Workout"
-                    required
-                  />
-                </Form.Group>
+    <>
+      <Container className="justify-content-center my-4">
+        <Row className="justify-content-center">
+          <Col xs={11} sm={8} md={5} lg={4} className="m-5">
+            <Card className="shadow border-0">
+              <Card.Body className="p-4">
+                <h1 className="text-center border-bottom border-5 mb-4">
+                  Create Session
+                </h1>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Session Name</Form.Label>
+                    <Form.Control
+                      name="name"
+                      value={form.name}
+                      onChange={updateField}
+                      placeholder="Example: Morning Chest Workout"
+                      required
+                    />
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Workout Type</Form.Label>
-                  <Form.Select
-                    name="workoutType"
-                    value={form.workoutType}
-                    onChange={updateField}
-                  >
-                    <option value={WorkoutType.CHEST}>Chest</option>
-                    <option value={WorkoutType.BACK}>Back</option>
-                    <option value={WorkoutType.LEGS}>Legs</option>
-                    <option value={WorkoutType.SHOULDERS}>Shoulders</option>
-                    <option value={WorkoutType.BICEPS}>Biceps</option>
-                    <option value={WorkoutType.TRICEPS}>Triceps</option>
-                    <option value={WorkoutType.CARDIO}>Cardio</option>
-                  </Form.Select>
-                </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Workout Type</Form.Label>
+                    <Form.Select
+                      name="workoutType"
+                      value={form.workoutType}
+                      onChange={updateField}
+                    >
+                      <option value={WorkoutType.CHEST}>Chest</option>
+                      <option value={WorkoutType.BACK}>Back</option>
+                      <option value={WorkoutType.LEGS}>Legs</option>
+                      <option value={WorkoutType.SHOULDERS}>Shoulders</option>
+                      <option value={WorkoutType.BICEPS}>Biceps</option>
+                      <option value={WorkoutType.TRICEPS}>Triceps</option>
+                      <option value={WorkoutType.CARDIO}>Cardio</option>
+                    </Form.Select>
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Location</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Location</Form.Label>
 
-                  <Form.Select
-                    name="location"
-                    value={form.location}
-                    onChange={updateField}
-                  >
-                    <option value={GymLocation.WARRIOR}>War Rec Center</option>
-                    <option value={GymLocation.HILO}>
-                      Student Life Center
-                    </option>
-                    <option value={GymLocation.WEST}>Nāulu Center</option>
-                  </Form.Select>
-                </Form.Group>
+                    <Form.Select
+                      name="location"
+                      value={form.location}
+                      onChange={updateField}
+                    >
+                      <option value={GymLocation.WARRIOR}>
+                        War Rec Center
+                      </option>
+                      <option value={GymLocation.HILO}>
+                        Student Life Center
+                      </option>
+                      <option value={GymLocation.WEST}>Nāulu Center</option>
+                    </Form.Select>
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Additional Info</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="description"
-                    value={form.description}
-                    onChange={updateField}
-                    placeholder="Anything others should know?"
-                  />
-                </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Additional Info</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      name="description"
+                      value={form.description}
+                      onChange={updateField}
+                      placeholder="Anything others should know?"
+                    />
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Start Time</Form.Label>
-                  <Form.Control
-                    type="datetime-local"
-                    name="startTime"
-                    value={form.startTime}
-                    onChange={updateField}
-                    required
-                  />
-                </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Start Time</Form.Label>
+                    <Form.Control
+                      type="datetime-local"
+                      name="startTime"
+                      value={form.startTime}
+                      onChange={updateField}
+                      required
+                    />
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Maximum Participants</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="maxPeople"
-                    value={form.maxPeople}
-                    onChange={updateField}
-                    min={2}
-                    max={40}
-                    required
-                  />
-                </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="fw-semibold">
+                      Maximum Participants
+                    </Form.Label>
 
-                <Button type="submit" disabled={loading}>
-                  {loading ? "Creating..." : "Create Session"}
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                    <Form.Text className="text-muted d-block mb-2">
+                      Enter the maximum number of people allowed (2–40).
+                    </Form.Text>
+
+                    <Form.Control
+                      type="text"
+                      inputMode="numeric"
+                      name="maxPeople"
+                      value={form.maxPeople}
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        // Only allow numbers and max 2 digits
+                        if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            maxPeople: Number(value),
+                          }));
+                        }
+                      }}
+                      required
+                    />
+
+                    <Form.Text className="text-muted">
+                      Current limit: {form.maxPeople || 0} participants
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Button type="submit" disabled={loading}>
+                    {loading ? "Creating..." : "Create Session"}
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+      <SuccessToast
+        show={created}
+        message="Workout session created successfully!"
+      />
+    </>
   );
 }

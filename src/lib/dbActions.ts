@@ -137,7 +137,7 @@ export async function createSession(data: {
     },
   });
 
-  redirect("/sessions");
+  return { success: true };
 }
 
 export async function joinSession(sessionId: number) {
@@ -213,6 +213,7 @@ export type AvailableSession = Prisma.SessionGetPayload<{
     participants: true;
   };
 }>;
+
 export async function getAvailableSessions() {
   const sessions = await prisma.session.findMany({
     where: {
