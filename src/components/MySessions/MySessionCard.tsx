@@ -1,17 +1,14 @@
 import {Card, CardBody, CardTitle, CardSubtitle, Image, Button, Badge } from "react-bootstrap"
 import Link from "next/link";
 import type { AvailableSession } from "@/lib/dbActions";
-import { auth } from "@/lib/auth";
 import DeleteButton from "./DeleteButton";
 
 type MySessionCardProps = {
   mysession: AvailableSession;
+  userid: number;
 };
 
-const session = await auth();
-const userId = Number(session?.user.id);
-
-export default function MySessionCard({ mysession }: MySessionCardProps) {
+export default function MySessionCard({ mysession, userid }: MySessionCardProps) {
   return (
     <Card
       className="shadow h-100 border-0"
@@ -36,9 +33,15 @@ export default function MySessionCard({ mysession }: MySessionCardProps) {
           <div>
             <CardTitle className="mb-1">{mysession.name}</CardTitle>
 
-            <CardSubtitle className="text-muted">
-              {mysession.host.profile?.displayName || "Unknown"}
-            </CardSubtitle>
+            {userid === mysession.hostId ? (
+              <CardSubtitle className="text-muted">
+                Host: <span className="text-dark">{mysession.host.profile?.displayName || "Unknown"} (You)</span>
+              </CardSubtitle>
+            ) : ( 
+              <CardSubtitle className="text-muted">
+                Hosted By: {mysession.host.profile?.displayName || "Unknown"}
+              </CardSubtitle>
+            )} 
           </div>
         </div>
 
@@ -68,8 +71,8 @@ export default function MySessionCard({ mysession }: MySessionCardProps) {
             <Button variant="outline-primary">More Info</Button>
           </Link>
 
-          {/*hide delete button if somehow current user is not the same as the host of the session*/}
-          {userId === mysession.hostId ? (
+          {/*hide delete button if current user is not the same as the session's host*/}
+          {userid === mysession.hostId ? (
             <DeleteButton sessionId = {mysession.id} sessionName={mysession.name}/>
           ) : (
             <div></div>

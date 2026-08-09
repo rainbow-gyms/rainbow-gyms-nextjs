@@ -21,17 +21,22 @@ type SessionProfileProps = {
         profilePicture: string | null;
       } | null;
     };
-    participants: { id: number }[];
+    participants: { id: number, userId: number }[];
   };
 };
+
+
 
 export default function SessionProfileDetails({ session }: SessionProfileProps) {
   const { data: currentsession } = useSession();
   const userId = Number(currentsession?.user.id);
+
+  const alreadyParticipating = session.participants.some((participant) => participant.userId === userId);
   {/*test*/}
   console.log("hostId: " + session.hostId);
   console.log("userId: " + currentsession?.user.id);
   console.log("sessionId: " + session.id);
+  console.log("isParts: " + alreadyParticipating);
   
   return (
     <Container className="py-5">
@@ -94,17 +99,17 @@ export default function SessionProfileDetails({ session }: SessionProfileProps) 
 
                 {/*adds back to my sessions button if userid macthes the session host's id*/}
                 {/*hides join button if userid macthes the session host's id */}
-                {userId === session.hostId ? (
+                {userId === session.hostId || alreadyParticipating ? (
                   <Link href="/sessions" className="text-decoration-none flex-grow-1">
                     <Button variant="outline-secondary" className="w-100">
                       Back to My Sessions
                     </Button>
                   </Link>
-                  ) : (
+                ) : (
                   <div className="flex-grow-1"> 
                     <JoinButton sessionId={session.id} />
                   </div>
-                )}  
+                )}
                 
               </div>
             </Card.Body>

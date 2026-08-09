@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -25,16 +27,29 @@ export default async function mySessions() {
 
   const mysessions = await prisma.session.findMany({
     where: {
-      hostId: userId,
+      OR: [
+        {
+          hostId: userId,
+        },
+        {
+          participants: {
+            some: {
+              userId: userId,
+            },
+          },
+        },
+      ],
     },
+
     include: {
-      participants: true,
       host: {
         include: {
           profile: true,
-        }
+        },
       },
+      participants: true,
     },
+
     orderBy: {
       startTime: "asc",
     },
@@ -49,7 +64,7 @@ export default async function mySessions() {
           <Row>
             {mysessions.map((workout) => (
               <Col key={workout.id} xs={12} md={4}>
-                <MySessionCard mysession = {workout} />
+                <MySessionCard mysession = {workout} userid = {userId} />
               </Col>
             ))}
           </Row>
