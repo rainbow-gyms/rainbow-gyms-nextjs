@@ -1,10 +1,10 @@
-export const dynamic = "force-dynamic";
+// src/app/sessions/page.tsx
 
+import { Row, Col } from "react-bootstrap";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import MySessionCard from "@/components/MySessions/MySessionCard";
-import { Col, Row } from "react-bootstrap";
 
 export default async function mySessions() {
   const session = await auth();
@@ -54,7 +54,6 @@ export default async function mySessions() {
       startTime: "asc",
     },
   });
-
   return (
     <div className="container my-4">
       <h1 className="mb-4 border-bottom border-5 display-4 fw-bold">My Sessions</h1>

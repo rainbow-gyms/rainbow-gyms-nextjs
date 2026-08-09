@@ -1,3 +1,5 @@
+// src/components/Browse/SessionCard.tsx
+
 import { Card, Image, Button, Badge } from "react-bootstrap";
 import Link from "next/link";
 import type { AvailableSession } from "@/lib/dbActions";
@@ -17,17 +19,20 @@ export default function SessionCard({ session }: SessionCardProps) {
     >
       <Card.Body className="d-flex flex-column">
         <div className="d-flex align-items-center mb-3">
-          <Image
-            src={session.host.profile?.profilePicture || "/pfp-default.png"}
-            width={55}
-            height={55}
-            roundedCircle
-            alt="profile picture"
-            style={{
-              objectFit: "cover",
-            }}
-            className="me-3 border"
-          />
+          <Link href={`/profile/${session.host.id}`}>
+            <Image
+              src={session.host.profile?.profilePicture || "/pfp-default.png"}
+              width={55}
+              height={55}
+              roundedCircle
+              alt="profile picture"
+              style={{
+                objectFit: "cover",
+                cursor: "pointer",
+              }}
+              className="me-3 border"
+            />
+          </Link>
 
           <div>
             <Card.Title className="mb-1">{session.name}</Card.Title>

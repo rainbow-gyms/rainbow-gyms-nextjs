@@ -1,9 +1,12 @@
+// src/components/CreateForm.tsx
+
 "use client";
 
 import { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { createSession } from "@/lib/dbActions";
 import { WorkoutType, GymLocation } from "@prisma/client";
+import SuccessToast from "./SuccessToast";
 
 type SessionForm = {
   name: string;
@@ -16,6 +19,7 @@ type SessionForm = {
 
 export default function CreateForm() {
   const [loading, setLoading] = useState(false);
+  const [created, setCreated] = useState(false);
 
   const [form, setForm] = useState<SessionForm>({
     name: "",
@@ -41,7 +45,7 @@ export default function CreateForm() {
           : name === "location"
             ? (value as GymLocation)
             : name === "maxPeople"
-              ? Number(value)
+              ? Math.max(2, Number(value))
               : value,
     }));
   }
@@ -54,6 +58,11 @@ export default function CreateForm() {
       return;
     }
 
+    if (form.maxPeople < 2 || form.maxPeople > 40) {
+      alert("Maximum participants must be between 2 and 40.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -61,18 +70,39 @@ export default function CreateForm() {
         ...form,
         startTime: new Date(form.startTime),
       });
+
+      // Show success toast
+      setCreated(true);
+
+      // Hide after 3 seconds
+      setTimeout(() => {
+        setCreated(false);
+      }, 3000);
+
+      // Optional: reset form
+      setForm({
+        name: "",
+        workoutType: WorkoutType.CHEST,
+        location: GymLocation.WARRIOR,
+        description: "",
+        startTime: "",
+        maxPeople: 2,
+      });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Container className="justify-content-center my-4">
-      <Row className="justify-content-center">
+    <>
+      <Container className="justify-content-center my-4">
+        <Row className="justify-content-center">
           <Col xs={11} sm={8} md={5} lg={4} className="m-5">
             <Card className="shadow border-0">
               <Card.Body className="p-4">
-                <h1 className="text-center border-bottom border-5 mb-4">Create Session</h1>
+                <h1 className="text-center border-bottom border-5 mb-4">
+                  Create Session
+                </h1>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Session Name</Form.Label>
@@ -110,8 +140,12 @@ export default function CreateForm() {
                       value={form.location}
                       onChange={updateField}
                     >
-                      <option value={GymLocation.WARRIOR}>War Rec Center</option>
-                      <option value={GymLocation.HILO}>Student Life Center</option>
+                      <option value={GymLocation.WARRIOR}>
+                        War Rec Center
+                      </option>
+                      <option value={GymLocation.HILO}>
+                        Student Life Center
+                      </option>
                       <option value={GymLocation.WEST}>Nāulu Center</option>
                     </Form.Select>
                   </Form.Group>
@@ -140,16 +174,36 @@ export default function CreateForm() {
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Label>Group Size</Form.Label>
-                    <Form.Select
+                    <Form.Label className="fw-semibold">
+                      Maximum Participants
+                    </Form.Label>
+
+                    <Form.Text className="text-muted d-block mb-2">
+                      Enter the maximum number of people allowed (2–40).
+                    </Form.Text>
+
+                    <Form.Control
+                      type="text"
+                      inputMode="numeric"
                       name="maxPeople"
                       value={form.maxPeople}
-                      onChange={updateField}
-                    >
-                      <option value={2}>2 people</option>
-                      <option value={3}>3 people</option>
-                      <option value={5}>5 people</option>
-                    </Form.Select>
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        // Only allow numbers and max 2 digits
+                        if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            maxPeople: Number(value),
+                          }));
+                        }
+                      }}
+                      required
+                    />
+
+                    <Form.Text className="text-muted">
+                      Current limit: {form.maxPeople || 0} participants
+                    </Form.Text>
                   </Form.Group>
 
                   <Button type="submit" disabled={loading}>
@@ -160,6 +214,11 @@ export default function CreateForm() {
             </Card>
           </Col>
         </Row>
-    </Container>
+      </Container>
+      <SuccessToast
+        show={created}
+        message="Workout session created successfully!"
+      />
+    </>
   );
 }

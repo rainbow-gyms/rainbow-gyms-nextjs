@@ -7,12 +7,13 @@ function Footer() {
       <Container>
         <Row className="align-items-start">
           {/* Logo */}
-          <Col>
+          <Col className="d-flex justify-content-center align-items-center">
             <Image
-              src="/Logo-Text.png"
-              alt="Logo Placeholder"
-              width={175}
-              fluid
+              src="Logo-Text.png"
+              alt="UH Gyms Logo"
+              width={150}
+              height={150}
+              className="mx-auto"
             />
           </Col>
 
