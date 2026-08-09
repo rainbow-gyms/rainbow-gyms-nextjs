@@ -2,17 +2,16 @@ import { Container, Col, Row, Image } from "react-bootstrap";
 
 const AboutUs = () => (
   <main>
-    <Container>
-      <h1 className="text-center py-3 mb-4 border-5 border-bottom" >About Us</h1>
+    <Container fluid>
+      <h1 className="text-center py-3 mb-4 border-5 border-bottom fw-bold" >About Us</h1>
       <Row className="justify-content-center py-1">
         {/*first row image*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <Image
             fluid
-            rounded
             src="/strong-man-gym.jpg"
             alt="Strong man working out in the gym"
-            className="w-100 shadow-sm border-0 overflow-hidden"
+            className="w-100 shadow-sm rounded-start-5 overflow-hidden"
             style={{
               maxHeight: "350px",
               objectFit: "cover",
@@ -21,9 +20,9 @@ const AboutUs = () => (
           />
         </Col>
         {/*first row text*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <div
-            className="h-auto d-flex flex-column justify-content-center text-start p-2">
+            className="h-auto d-flex flex-column justify-content-center text-end text-md-start  p-2">
             <h3 className="fw-bold">Our Purpose</h3>
             <p className="mb-0" 
               style = {{
@@ -42,7 +41,7 @@ const AboutUs = () => (
       {/*second row v1: shows only on md screen and higher*/}
       <Row className="justify-content-center py-3 d-none d-md-flex">
         {/*second row text*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <div className="h-auto d-flex flex-column justify-content-center text-end p-2">
             <h3 className="fw-bold">Our Motivation</h3>
             <p className="mb-0" 
@@ -60,13 +59,12 @@ const AboutUs = () => (
           </div>
         </Col>
         {/*second row image*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <Image
             fluid
-            rounded
             src="/strong-man-gym.jpg"
             alt="Strong man working out in the gym"
-            className="w-100 shadow-sm border-0 overflow-hidden"
+            className="w-100 shadow-sm rounded-end-5 overflow-hidden"
             style={{
               maxHeight: "350px",
               objectFit: "cover",
@@ -79,13 +77,11 @@ const AboutUs = () => (
       {/*second row v2: shows only on sm screen or lower*/}
       <Row className="justify-content-center py-3 d-flex d-md-none">
         {/*second row image*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <Image
-            fluid
-            rounded
             src="/strong-man-gym.jpg"
             alt="Strong man working out in the gym"
-            className="w-100 shadow-sm border-0 overflow-hidden"
+            className="w-100 shadow-sm rounded-end-5 overflow-hidden"
             style={{
               maxHeight: "350px",
               objectFit: "cover",
@@ -94,7 +90,7 @@ const AboutUs = () => (
           />
         </Col>
         {/*second row text*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <div className="h-auto d-flex flex-column justify-content-center text-start p-2">
             <h3 className="fw-bold">Our Motivation</h3>
             <p className="mb-0" 
@@ -115,13 +111,12 @@ const AboutUs = () => (
 
       <Row className="justify-content-center py-3">
         {/*third row image*/}
-        <Col md={5} lg={4}>
+        <Col md={5}>
           <Image
             fluid
-            rounded
             src="/strong-man-gym.jpg"
             alt="Students"
-            className="w-100 shadow-sm border-0 overflow-hidden"
+            className="w-100 shadow-sm rounded-start-5 overflow-hidden"
             style={{
               maxHeight: "350px",
               objectFit: "cover",
@@ -130,8 +125,8 @@ const AboutUs = () => (
           />
         </Col>
         {/*third row text*/}
-        <Col md={5} lg={4}>
-          <div className="h-auto d-flex flex-column justify-content-center p-2">
+        <Col md={5}>
+          <div className="h-auto d-flex flex-column justify-content-center text-end text-md-start p-2">
             <h3 className="fw-bold">Our Community</h3>
             <p className="mb-0" 
               style = {{

@@ -13,6 +13,7 @@ import {
 } from "react-bootstrap";
 import Link from "next/link";
 import JoinButton from "./Browse/JoinButton";
+import { useSession } from "next-auth/react";
 
 type SessionProfileProps = {
   session: {
@@ -23,6 +24,7 @@ type SessionProfileProps = {
     startTime: Date;
     description: string | null;
     maxPeople: number;
+    hostId: number;
     host: {
       id: number;
       profile: {
@@ -32,6 +34,7 @@ type SessionProfileProps = {
     };
     participants: {
       id: number;
+      userId: number;
       user: {
         id: number;
         profile: {
@@ -46,6 +49,11 @@ type SessionProfileProps = {
 export default function SessionProfileDetails({
   session,
 }: SessionProfileProps) {
+  const { data: currentsession } = useSession();
+  const userId = Number(currentsession?.user.id);
+
+  const alreadyParticipating = session.participants.some((participant) => participant.userId === userId);
+  
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
@@ -159,9 +167,21 @@ export default function SessionProfileDetails({
                     Back to Browse
                   </Button>
                 </Link>
-                <div className="flex-grow-1">
-                  <JoinButton sessionId={session.id} />
-                </div>
+
+                {/*adds back to my sessions button if userid macthes the session host's id*/}
+                {/*hides join button if userid macthes the session host's id */}
+                {userId === session.hostId || alreadyParticipating ? (
+                  <Link href="/sessions" className="text-decoration-none flex-grow-1">
+                    <Button variant="outline-secondary" className="w-100">
+                      Back to My Sessions
+                    </Button>
+                  </Link>
+                ) : (
+                  <div className="flex-grow-1"> 
+                    <JoinButton sessionId={session.id} />
+                  </div>
+                )}
+                
               </div>
             </Card.Body>
           </Card>

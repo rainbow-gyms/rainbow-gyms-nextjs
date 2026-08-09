@@ -35,19 +35,47 @@ const NavBar: React.FC = () => {
           <Nav className="ms-auto align-items-center">
             {session && (
               <>
-                <Link href={session ? "/profile/check" : "/"} className={`nav-link text-light px-3 ${pathname === "/" ? "border-bottom border-3" : ""}`}>
+                <Link href={session ? "/profile/check" : "/"} 
+                      className="nav-link text-light px-3" 
+                      style={{
+                        textDecoration: pathname === "/" ? "underline" : "none",
+                        textDecorationThickness: pathname === "/" ? "2px" : "0px",
+                        textUnderlineOffset: pathname === "/" ? "50%" : "0px",
+                      }}
+                >
                   Browse
                 </Link>
 
-                <Link href="/sessions" className={`nav-link text-light px-3 ${pathname === "/sessions" ? "border-bottom border-3" : ""}`}>
+                <Link href="/sessions"
+                      className="nav-link text-light px-3" 
+                      style={{
+                        textDecoration: pathname === "/sessions" ? "underline" : "none",
+                        textDecorationThickness: pathname === "/sessions" ? "2px" : "0px",
+                        textUnderlineOffset: pathname === "/sessions" ? "50%" : "0px",
+                      }}
+                >
                   My Sessions
                 </Link>
 
-                <Link href="/create" className={`nav-link text-light px-3 ${pathname === "/create" ? "border-bottom border-3" : ""}`}>
+                <Link href="/create"
+                      className="nav-link text-light px-3" 
+                      style={{
+                        textDecoration: pathname === "/create" ? "underline" : "none",
+                        textDecorationThickness: pathname === "/create" ? "2px" : "0px",
+                        textUnderlineOffset: pathname === "/create" ? "50%" : "0px",
+                      }}
+                >
                   Create
                 </Link>
 
-                <Link href="/calendar" className={`nav-link text-light px-3 ${pathname === "/calendar" ? "border-bottom border-3" : ""}`}>
+                <Link href="/calendar"
+                      className="nav-link text-light px-3" 
+                      style={{
+                        textDecoration: pathname === "/calendar" ? "underline" : "none",
+                        textDecorationThickness: pathname === "/calendar" ? "2px" : "0px",
+                        textUnderlineOffset: pathname === "/calendar" ? "50%" : "0px",
+                      }}
+                >
                   Calendar
                 </Link>
               </>
