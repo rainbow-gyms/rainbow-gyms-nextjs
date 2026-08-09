@@ -59,7 +59,7 @@ export default async function mySessions() {
     <div className="container my-4">
       <h1 className="mb-4 border-bottom border-5 display-4 fw-bold">My Sessions</h1>
       {mysessions.length === 0 ? (
-          <p>You haven&apos;t created any sessions yet...</p>
+          <p>You haven&apos;t joined or created any sessions yet...</p>
         ) : (
           <Row>
             {mysessions.map((workout) => (

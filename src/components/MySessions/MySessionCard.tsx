@@ -17,6 +17,7 @@ export default function MySessionCard({ mysession, userid }: MySessionCardProps)
       }}
     >
       <CardBody className="d-flex flex-column">
+        {/*session host info*/}
         <div className="d-flex align-items-center mb-3">
           <Image
             src={mysession.host.profile?.profilePicture || "/pfp-default.png"}
@@ -39,12 +40,13 @@ export default function MySessionCard({ mysession, userid }: MySessionCardProps)
               </CardSubtitle>
             ) : ( 
               <CardSubtitle className="text-muted">
-                Hosted By: {mysession.host.profile?.displayName || "Unknown"}
+                Host: <span className="text-dark">{mysession.host.profile?.displayName || "Unknown"}</span>
               </CardSubtitle>
             )} 
           </div>
         </div>
-
+        
+        {/*session info*/}
         <div className="mb-3">
           <p className="mb-1">
             <strong>Location:</strong> {mysession.location}
@@ -65,7 +67,30 @@ export default function MySessionCard({ mysession, userid }: MySessionCardProps)
             {mysession.maxPeople}
           </p>
         </div>
+        
+        {/*progress bar*/}
+        <div className="mb-4">
+          <div
+            className="progress"
+            style={{
+              height: "8px",
+              borderRadius: "10px",
+            }}
+          >
+            <div
+              className="progress-bar bg-primary"
+              role="progressbar"
+              style={{
+                width: `${
+                  (mysession.participants.length / mysession.maxPeople) *
+                  100
+                }%`,
+              }}
+            />
+          </div>
+        </div>
 
+        {/*buttons*/}
         <div className="mt-auto d-flex gap-2">
           <Link href={`/sessionProfile/${mysession.id}`}>
             <Button variant="outline-primary">More Info</Button>
