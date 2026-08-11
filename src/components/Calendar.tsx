@@ -1,14 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Card, Button, Badge, Modal, Form, Row, Col } from 'react-bootstrap';
-import { WorkoutType, GymLocation, ExperienceLevel } from "@prisma/client";
+import { WorkoutType, ExperienceLevel } from "@prisma/client";
 import SessionProfileDetails from "@/components/SessionProfilePage";
 
+type GymLocationValue = "WARRIOR" | "HILO" | "WEST";
+
 interface CalendarSessionParticipant {
-  id?: number;
-  userId?: number;
-  length?: number;
+  id: number;
+  userId: number;
+  user: {
+    id: number;
+    profile: {
+      displayName: string;
+      profilePicture: string | null;
+    } | null;
+  };
 }
 
 export interface CalendarSession {
@@ -16,17 +24,22 @@ export interface CalendarSession {
   name: string;
   startTime: Date | string;
   workoutType: string;
+  description: string | null;
   status?: string;
-  maxPeople?: number;
-  location?: string;
+  maxPeople: number;
+  location: GymLocationValue | string;
+  hostId: number;
   _count?: {
     participants: number;
   };
-  participants?: CalendarSessionParticipant[];
-  host?: {
-    profile?: {
-      experienceLevel?: string;
-    };
+  participants: CalendarSessionParticipant[];
+  host: {
+    id: number;
+    profile: {
+      displayName: string | null;
+      profilePicture: string | null;
+      experienceLevel?: string | null;
+    } | null;
   };
 }
 
@@ -111,7 +124,7 @@ const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
     return matchesType && matchesLocation && matchesExperience && matchesParticipants;
   });
 
-  const calendarCells = [];
+  const calendarCells: ReactNode[] = [];
   
   for (let i = 0; i < firstDayIndex; i++) {
     calendarCells.push(<div key={`empty-${i}`} className="border bg-light"></div>);
@@ -181,9 +194,9 @@ const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
                 <Form.Label className="fw-bold small mb-1">Gym Location</Form.Label>
                 <Form.Select size="sm" value={location} onChange={(e) => setLocation(e.target.value)}>
                   <option value="">All Locations</option>
-                  <option value={GymLocation.WARRIOR}>War Rec Center</option>
-                  <option value={GymLocation.HILO}>Student Life Center</option>
-                  <option value={GymLocation.WEST}>Nāulu Center</option>
+                  <option value="WARRIOR">War Rec Center</option>
+                  <option value="HILO">Student Life Center</option>
+                  <option value="WEST">Nāulu Center</option>
                 </Form.Select>
               </Form.Group>
             </Col>
