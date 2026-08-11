@@ -10,6 +10,11 @@ const Calendar = async () => {
             name: true,
             startTime: true,
             workoutType: true,
+            status: true,
+            maxPeople: true,
+            _count: {
+                select: { participants: true },
+            },
         }
     });
 

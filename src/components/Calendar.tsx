@@ -8,6 +8,11 @@ export interface CalendarSession {
   name: string;
   startTime: Date | string; 
   workoutType: string;
+  status?: string;
+  maxPeople?: number;
+  _count?: {
+    participants: number;
+  };
 }
 
 interface SimpleCalendarProps {
@@ -52,16 +57,25 @@ const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
         <span className="fw-semibold mb-1">{day}</span>
         
         <div className="overflow-auto" style={{ flex: 1 }}>
-          {daySessions.map((session) => (
-            <Badge 
-              key={session.id} 
-              bg="primary" 
-              className="mb-1 d-block text-truncate text-start"
-              title={`${session.name} - ${session.workoutType}`}
-            >
-              {session.name}
-            </Badge>
-          ))}
+          {daySessions.map((session) => {
+            // Determine if session is full based on status enum or participant count
+            const isFull = 
+              session.status === 'FULL' || 
+              (session.maxPeople !== undefined && 
+               session._count?.participants !== undefined && 
+               session._count.participants >= session.maxPeople);
+
+            return (
+              <Badge 
+                key={session.id} 
+                bg={isFull ? 'danger' : 'primary'} 
+                className="mb-1 d-block text-truncate text-start"
+                title={`${session.name} - ${session.workoutType}${isFull ? ' (FULL)' : ''}`}
+              >
+                {session.name} {isFull && '[FULL]'}
+              </Badge>
+            );
+          })}
         </div>
       </div>
     );
@@ -69,14 +83,12 @@ const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
 
   return (
     <Card className="shadow-sm border-0 p-3 d-flex flex-column" style={{ height: 'calc(100vh - 40px)' }}>
-      {/* Header Controls */}
       <div className="d-flex justify-content-between align-items-center mb-2 flex-shrink-0">
         <Button variant="outline-dark" size="sm" onClick={prevMonth}>&larr; Prev</Button>
         <h5 className="mb-0 fw-bold">{monthNames[month]} {year}</h5>
         <Button variant="outline-dark" size="sm" onClick={nextMonth}>Next &rarr;</Button>
       </div>
 
-      {/* Weekday Headers */}
       <div className="d-grid flex-shrink-0 mb-1" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
           <div key={d} className="fw-bold text-center p-2 bg-secondary text-white small">
@@ -85,7 +97,6 @@ const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
         ))}
       </div>
 
-      {/* Days Grid */}
       <div className="d-grid flex-grow-1" style={{ gridTemplateColumns: 'repeat(7, 1fr)', gridTemplateRows: 'repeat(6, 1fr)' }}>
         {calendarCells}
       </div>
