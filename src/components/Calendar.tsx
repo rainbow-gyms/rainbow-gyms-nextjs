@@ -5,10 +5,16 @@ import { Card, Button, Badge, Modal, Form, Row, Col } from 'react-bootstrap';
 import { WorkoutType, GymLocation, ExperienceLevel } from "@prisma/client";
 import SessionProfileDetails from "@/components/SessionProfilePage";
 
+interface CalendarSessionParticipant {
+  id?: number;
+  userId?: number;
+  length?: number;
+}
+
 export interface CalendarSession {
   id: number;
   name: string;
-  startTime: Date | string; 
+  startTime: Date | string;
   workoutType: string;
   status?: string;
   maxPeople?: number;
@@ -16,13 +22,12 @@ export interface CalendarSession {
   _count?: {
     participants: number;
   };
-  participants?: any[];
+  participants?: CalendarSessionParticipant[];
   host?: {
     profile?: {
       experienceLevel?: string;
     };
   };
-  [key: string]: any; 
 }
 
 interface SimpleCalendarProps {
