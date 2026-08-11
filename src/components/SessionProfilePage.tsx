@@ -1,5 +1,3 @@
-// /src/components/SessionProfilePage.tsx
-
 "use client";
 
 import {
@@ -21,15 +19,17 @@ type SessionProfileProps = {
     name: string;
     workoutType: string;
     location: string;
-    startTime: Date;
+    startTime: Date | string;
     description: string | null;
     maxPeople: number;
     hostId: number;
+    status?: string;
     host: {
       id: number;
       profile: {
         displayName: string | null;
         profilePicture: string | null;
+        experienceLevel?: string | null;
       } | null;
     };
     participants: {
@@ -44,35 +44,42 @@ type SessionProfileProps = {
       };
     }[];
   };
+  isPopup?: boolean;
+  onClose?: () => void;
 };
 
 export default function SessionProfileDetails({
   session,
+  isPopup = false,
+  onClose,
 }: SessionProfileProps) {
   const { data: currentsession } = useSession();
   const userId = Number(currentsession?.user.id);
 
-  const alreadyParticipating = session.participants.some((participant) => participant.userId === userId);
+  const alreadyParticipating = session.participants.some(
+    (participant) => participant.userId === userId
+  );
+
+  // Determine if the session is full
+  const isFull =
+    session.status === 'FULL' ||
+    session.participants.length >= session.maxPeople;
   
   return (
-    <Container className="py-5">
+    <Container className={isPopup ? "py-2" : "py-5"}>
       <Row className="justify-content-center">
-        <Col md={8} lg={6}>
+        {/* Widen the column structure if it's in a popup to utilize the XL modal space */}
+        <Col md={isPopup ? 12 : 8} lg={isPopup ? 12 : 6}>
           <Card className="shadow-sm border-0" style={{ borderRadius: "15px" }}>
             <Card.Header className="bg-white border-0 pt-4 pb-0">
-              <Card.Title className="mb-2 fs-3 fw-bold">
+              <Card.Title className="mb-3 fs-3 fw-bold">
                 {session.name}
               </Card.Title>
 
-              <div className="d-flex align-items-center">
-                <Link
-                  href={`/profile/${session.host.id}`}
-                  className="text-decoration-none"
-                >
+              <div className="d-flex align-items-center mb-2">
+                <Link href={`/profile/${session.host.id}`} className="text-decoration-none">
                   <Image
-                    src={
-                      session.host.profile?.profilePicture || "/pfp-default.png"
-                    }
+                    src={session.host.profile?.profilePicture || "/pfp-default.png"}
                     width={65}
                     height={65}
                     roundedCircle
@@ -82,9 +89,19 @@ export default function SessionProfileDetails({
                   />
                 </Link>
 
-                <Card.Subtitle className="text-muted">
-                  Hosted by {session.host.profile?.displayName || "Unknown"}
-                </Card.Subtitle>
+                <div className="d-flex flex-column justify-content-center">
+                  <Card.Subtitle className="text-muted mb-1">
+                    Hosted by {session.host.profile?.displayName || "Unknown"}
+                  </Card.Subtitle>
+
+                  {session.host.profile?.experienceLevel && (
+                    <div>
+                      <Badge bg="info" className="text-white text-uppercase" style={{ fontSize: '0.7em' }}>
+                        {session.host.profile.experienceLevel}
+                      </Badge>
+                    </div>
+                  )}
+                </div>
               </div>
             </Card.Header>
 
@@ -161,27 +178,50 @@ export default function SessionProfileDetails({
                 ))}
               </div>
 
+              {/* Dynamic Button Section */}
               <div className="d-flex gap-3 mt-4">
-                <Link href="/" className="text-decoration-none flex-grow-1">
-                  <Button variant="outline-secondary" className="w-100">
-                    Back to Browse
-                  </Button>
-                </Link>
-
-                {/*adds back to my sessions button if userid macthes the session host's id*/}
-                {/*hides join button if userid macthes the session host's id */}
-                {userId === session.hostId || alreadyParticipating ? (
-                  <Link href="/sessions" className="text-decoration-none flex-grow-1">
-                    <Button variant="outline-secondary" className="w-100">
-                      Back to My Sessions
+                {isPopup ? (
+                  <>
+                    <Button variant="secondary" onClick={onClose} className="flex-grow-1">
+                      Close
                     </Button>
-                  </Link>
+                    
+                    {isFull ? (
+                      <Button variant="danger" disabled className="flex-grow-1 w-100">
+                        Session Full
+                      </Button>
+                    ) : (userId === session.hostId || alreadyParticipating) ? (
+                      <Button variant="success" disabled className="flex-grow-1 w-100">
+                        Already Joined
+                      </Button>
+                    ) : (
+                      <div className="flex-grow-1 d-flex">
+                        <JoinButton sessionId={session.id} />
+                      </div>
+                    )}
+                  </>
                 ) : (
-                  <div className="flex-grow-1"> 
-                    <JoinButton sessionId={session.id} />
-                  </div>
+                  <>
+                    <Link href="/" className="text-decoration-none flex-grow-1">
+                      <Button variant="outline-secondary" className="w-100">
+                        Back to Browse
+                      </Button>
+                    </Link>
+
+                    {/* Adds "Back to My Sessions" button and hides the "Join" button if userid matches the session host's id */}
+                    {userId === session.hostId || alreadyParticipating ? (
+                      <Link href="/sessions" className="text-decoration-none flex-grow-1">
+                        <Button variant="outline-secondary" className="w-100">
+                          Back to My Sessions
+                        </Button>
+                      </Link>
+                    ) : (
+                      <div className="flex-grow-1 d-flex"> 
+                        <JoinButton sessionId={session.id} />
+                      </div>
+                    )}
+                  </>
                 )}
-                
               </div>
             </Card.Body>
           </Card>
