@@ -248,7 +248,7 @@ const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
       <Modal 
         show={showModal} 
         onHide={() => setShowModal(false)} 
-        size="lg" 
+        size="xl" 
         centered
       >
         <Modal.Header closeButton>
