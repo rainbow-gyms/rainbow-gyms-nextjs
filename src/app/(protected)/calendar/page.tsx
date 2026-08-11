@@ -5,13 +5,21 @@ const prisma = new PrismaClient();
 
 const Calendar = async () => {
     const sessions = await prisma.session.findMany({
-        select: {
-            id: true,
-            name: true,
-            startTime: true,
-            workoutType: true,
-            status: true,
-            maxPeople: true,
+        include: {
+            host: {
+                include: {
+                    profile: true,
+                },
+            },
+            participants: {
+                include: {
+                    user: {
+                        include: {
+                            profile: true,
+                        },
+                    },
+                },
+            },
             _count: {
                 select: { participants: true },
             },
