@@ -1,10 +1,23 @@
-"use client";
 import SimpleCalendar from "@/components/Calendar";
+import { PrismaClient } from '@prisma/client';
 
-const Calendar = () => (
-    <main>
-        <SimpleCalendar />
-    </main>
-)
+const prisma = new PrismaClient();
+
+const Calendar = async () => {
+    const sessions = await prisma.session.findMany({
+        select: {
+            id: true,
+            name: true,
+            startTime: true,
+            workoutType: true,
+        }
+    });
+
+    return (
+        <main>
+            <SimpleCalendar sessions={sessions} />
+        </main>
+    );
+}
 
 export default Calendar;

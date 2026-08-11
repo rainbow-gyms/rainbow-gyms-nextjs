@@ -1,13 +1,25 @@
-import { useState } from 'react';
-import { Card, Button } from 'react-bootstrap';
+'use client';
 
-const SimpleCalendar = () => {
+import { useState } from 'react';
+import { Card, Button, Badge } from 'react-bootstrap';
+
+export interface CalendarSession {
+  id: number;
+  name: string;
+  startTime: Date | string; 
+  workoutType: string;
+}
+
+interface SimpleCalendarProps {
+  sessions?: CalendarSession[];
+}
+
+const SimpleCalendar = ({ sessions = [] }: SimpleCalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  // Helper calculations using standard JavaScript Date API
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayIndex = new Date(year, month, 1).getDay();
 
@@ -16,19 +28,41 @@ const SimpleCalendar = () => {
     "July", "August", "September", "October", "November", "December"
   ];
 
-  // Navigation handlers
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
 
-  // Build grid items (empty padding cells + actual day numbers)
   const calendarCells = [];
+  
   for (let i = 0; i < firstDayIndex; i++) {
     calendarCells.push(<div key={`empty-${i}`} className="border bg-light"></div>);
   }
+  
   for (let day = 1; day <= daysInMonth; day++) {
+    const daySessions = sessions.filter((session) => {
+      const sessionDate = new Date(session.startTime);
+      return (
+        sessionDate.getFullYear() === year &&
+        sessionDate.getMonth() === month &&
+        sessionDate.getDate() === day
+      );
+    });
+
     calendarCells.push(
-      <div key={day} className="border text-start fw-semibold hover-highlight p-2">
-        {day}
+      <div key={day} className="border text-start p-2 hover-highlight d-flex flex-column" style={{ minHeight: '100px' }}>
+        <span className="fw-semibold mb-1">{day}</span>
+        
+        <div className="overflow-auto" style={{ flex: 1 }}>
+          {daySessions.map((session) => (
+            <Badge 
+              key={session.id} 
+              bg="primary" 
+              className="mb-1 d-block text-truncate text-start"
+              title={`${session.name} - ${session.workoutType}`}
+            >
+              {session.name}
+            </Badge>
+          ))}
+        </div>
       </div>
     );
   }
@@ -52,10 +86,7 @@ const SimpleCalendar = () => {
       </div>
 
       {/* Days Grid */}
-      <div 
-        className="d-grid flex-grow-1" 
-        style={{ gridTemplateColumns: 'repeat(7, 1fr)', gridTemplateRows: 'repeat(6, 1fr)' }}
-      >
+      <div className="d-grid flex-grow-1" style={{ gridTemplateColumns: 'repeat(7, 1fr)', gridTemplateRows: 'repeat(6, 1fr)' }}>
         {calendarCells}
       </div>
     </Card>
